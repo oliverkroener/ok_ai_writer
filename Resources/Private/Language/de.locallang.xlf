@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages">
+        <body>
+            <trans-unit id="aitext.toolbar.label" resname="aitext.toolbar.label">
+                <source>AI Text</source>
+                <target>KI-Text</target>
+            </trans-unit>
+            <trans-unit id="aitext.dialog.title" resname="aitext.dialog.title">
+                <source>AI Text Generator</source>
+                <target>KI-Textgenerator</target>
+            </trans-unit>
+            <trans-unit id="aitext.dialog.settings" resname="aitext.dialog.settings">
+                <source>Settings</source>
+                <target>Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="aitext.dialog.close" resname="aitext.dialog.close">
+                <source>Close</source>
+                <target>Schließen</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.mode" resname="aitext.settings.mode">
+                <source>API Mode</source>
+                <target>API-Modus</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.endpoint" resname="aitext.settings.endpoint">
+                <source>Endpoint URL</source>
+                <target>Endpunkt-URL</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.apikey" resname="aitext.settings.apikey">
+                <source>API Key</source>
+                <target>API-Schlüssel</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.apikeyPlaceholder" resname="aitext.settings.apikeyPlaceholder">
+                <source>Your API key</source>
+                <target>Ihr API-Schlüssel</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.model" resname="aitext.settings.model">
+                <source>Model</source>
+                <target>Modell</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.serverValue" resname="aitext.settings.serverValue">
+                <source>Server</source>
+                <target>Server</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.configured" resname="aitext.settings.configured">
+                <source>API credentials configured by administrator.</source>
+                <target>API-Zugangsdaten vom Administrator konfiguriert.</target>
+            </trans-unit>
+            <trans-unit id="aitext.settings.devmode" resname="aitext.settings.devmode">
+                <source>Developer Mode — credentials can be overridden</source>
+                <target>Entwicklermodus — Zugangsdaten können überschrieben werden</target>
+            </trans-unit>
+            <trans-unit id="aitext.empty.title" resname="aitext.empty.title">
+                <source>What would you like to write?</source>
+                <target>Was möchten Sie schreiben?</target>
+            </trans-unit>
+            <trans-unit id="aitext.empty.description" resname="aitext.empty.description">
+                <source>Describe your text below and the AI will generate it for you.</source>
+                <target>Beschreiben Sie Ihren Text unten und die KI generiert ihn für Sie.</target>
+            </trans-unit>
+            <trans-unit id="aitext.loading" resname="aitext.loading">
+                <source>Generating...</source>
+                <target>Wird generiert...</target>
+            </trans-unit>
+            <trans-unit id="aitext.insert" resname="aitext.insert">
+                <source>Insert into Editor</source>
+                <target>In Editor einfügen</target>
+            </trans-unit>
+            <trans-unit id="aitext.prompt.placeholder" resname="aitext.prompt.placeholder">
+                <source>Describe the text you want to generate...</source>
+                <target>Beschreiben Sie den Text, den Sie generieren möchten...</target>
+            </trans-unit>
+            <trans-unit id="aitext.prompt.placeholderRefine" resname="aitext.prompt.placeholderRefine">
+                <source>Refine: e.g. "make it shorter", "more formal", "add a call to action"...</source>
+                <target>Verfeinern: z.B. "kürzer fassen", "formeller", "Handlungsaufforderung hinzufügen"...</target>
+            </trans-unit>
+            <trans-unit id="aitext.send" resname="aitext.send">
+                <source>Send (Enter)</source>
+                <target>Senden (Enter)</target>
+            </trans-unit>
+            <trans-unit id="aitext.error.credentials" resname="aitext.error.credentials">
+                <source>Please configure endpoint and API key.</source>
+                <target>Bitte Endpunkt und API-Schlüssel konfigurieren.</target>
+            </trans-unit>
+            <trans-unit id="aitext.error.notConfigured" resname="aitext.error.notConfigured">
+                <source>API not configured. Please contact your administrator.</source>
+                <target>API nicht konfiguriert. Bitte kontaktieren Sie Ihren Administrator.</target>
+            </trans-unit>
+            <trans-unit id="aitext.status.ready" resname="aitext.status.ready">
+                <source>Ready to insert or keep refining.</source>
+                <target>Bereit zum Einfügen oder Weiterbearbeiten.</target>
+            </trans-unit>
+            <trans-unit id="aitext.tokens.in" resname="aitext.tokens.in">
+                <source>in</source>
+                <target>Eingabe</target>
+            </trans-unit>
+            <trans-unit id="aitext.tokens.out" resname="aitext.tokens.out">
+                <source>out</source>
+                <target>Ausgabe</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

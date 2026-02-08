@@ -1,17 +1,19 @@
 # AI Writer for CKEditor (ok_ai_writer)
 
-TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and Lorem Ipsum insertion. Connects to Azure OpenAI to generate website content directly from the rich text editor.
+TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs.
 
 ## Features
 
 ### AI Text Generator
 - Adds a sparkle icon button to the CKEditor toolbar
-- Opens a dialog with prompt input and text preview
-- Generates HTML content via Azure OpenAI chat completions API
+- Opens a chat-style dialog with prompt input and text preview
+- Generates HTML content via Azure OpenAI or OpenAI (ChatGPT) chat completions API
+- Supports iterative refinement through conversation history
 - Previews the generated text before inserting into the editor
-- Persists Azure endpoint and API key in browser localStorage (per-user)
-- Proxies API requests through the TYPO3 backend to avoid CORS issues
-- Keyboard shortcut: **Ctrl+Enter** to generate, **Escape** to close
+- **Centralized credentials**: Admin configures API credentials server-side (displayed blinded to editors)
+- **Developer mode**: Optional per-user credentials via browser localStorage
+- Token usage tracking per session
+- Keyboard shortcut: **Enter** to generate, **Shift+Enter** for new line, **Escape** to close
 
 ### Lorem Ipsum
 - Adds a text icon button to the CKEditor toolbar
@@ -21,7 +23,7 @@ TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and 
 
 - TYPO3 13.4 LTS
 - `typo3/cms-rte-ckeditor` ^13.4
-- An Azure OpenAI resource with a deployed model (for AI text generation)
+- An Azure OpenAI resource **or** an OpenAI API key
 
 ## Installation
 
@@ -52,7 +54,7 @@ Add the package to your `repositories` and `require` sections in `composer.json`
 Then run:
 
 ```bash
-composer update
+composer update oliverkroener/ok-ai-writer
 ```
 
 ### Activate the extension
@@ -64,17 +66,19 @@ vendor/bin/typo3 cache:flush
 
 ## Configuration
 
-### Option A: Use the bundled RTE preset
+### Extension Configuration
 
-The extension registers an RTE preset called `ok_ai_writer`. To use it directly, add to your page TSconfig:
+Open **Admin Tools > Settings > Extension Configuration > ok_ai_writer**:
 
-```
-RTE.default.preset = ok_ai_writer
-```
+| Setting    | Type    | Default | Description |
+|------------|---------|---------|-------------|
+| `devMode`  | boolean | `false` | Allow editors to override credentials in localStorage |
+| `mode`     | select  | `azure` | AI provider: `azure` or `openai` |
+| `apiUrl`   | string  | —       | API endpoint URL |
+| `apiKey`   | string  | —       | API key (displayed blinded to editors) |
+| `model`    | string  | `gpt-4o`| Model name (OpenAI mode only, ignored for Azure) |
 
-> **Note:** This preset only loads the plugins. It does not include a toolbar definition, so the `aiText` and `loremIpsum` buttons must be added to the toolbar by another preset or via YAML imports.
-
-### Option B: Import into your own RTE preset (recommended)
+### RTE Preset Setup
 
 Import the AI Writer YAML into your custom RTE preset and add `aiText` and `loremIpsum` to your toolbar:
 
@@ -108,38 +112,23 @@ And activate it via page TSconfig:
 RTE.default.preset = my_preset
 ```
 
-## Usage
+## Provider Setup
 
-### AI Text Generator
-
-1. Open any content element with a rich text field in the TYPO3 backend
-2. Click the sparkle icon in the CKEditor toolbar
-3. On first use, expand **Azure AI Settings** and enter:
-   - **Endpoint URL** - Your Azure OpenAI deployment endpoint, e.g.:
-     `https://your-resource.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-01`
-   - **API Key** - Your Azure OpenAI API key
-4. Type a prompt describing the content you want
-5. Click **Generate** (or press **Ctrl+Enter**)
-6. Review the generated text in the preview area
-7. Click **Insert into Editor** to place the text at the cursor position
-
-Endpoint and API key are saved in your browser's localStorage and persist across sessions.
-
-### Lorem Ipsum
-
-1. Place the cursor where you want the text inserted
-2. Click the text lines icon in the CKEditor toolbar
-3. Three paragraphs of Lorem Ipsum are inserted at the cursor position
-
-## Azure OpenAI Setup
+### Azure OpenAI
 
 1. Create an Azure OpenAI resource in the [Azure Portal](https://portal.azure.com)
 2. Deploy a model (e.g. `gpt-4`, `gpt-4o`, `gpt-35-turbo`)
-3. Copy the **Endpoint** and **Key** from the resource's "Keys and Endpoint" page
-4. The full endpoint URL format is:
+3. Set `mode = azure`, `apiUrl` to your deployment endpoint, `apiKey` to your Azure key
+4. Endpoint URL format:
    ```
    https://{resource-name}.openai.azure.com/openai/deployments/{deployment-name}/chat/completions?api-version=2024-02-01
    ```
+
+### OpenAI (ChatGPT)
+
+1. Create an API key at [platform.openai.com](https://platform.openai.com)
+2. Set `mode = openai`, `apiUrl = https://api.openai.com/v1/chat/completions`, `apiKey` to your `sk-...` key
+3. Set `model` to the desired model (e.g. `gpt-4o`, `gpt-4`, `gpt-3.5-turbo`)
 
 ## Architecture
 
@@ -147,46 +136,46 @@ Endpoint and API key are saved in your browser's localStorage and persist across
 Browser (CKEditor plugin)
     │
     │  POST /typo3/ajax/ok-ai-writer/generate
-    │  Body: { endpoint, apikey, prompt }
+    │  Body: { messages[] }  (+ optional endpoint/apikey/mode/model in devMode)
     │
     ▼
 TYPO3 Backend (AiTextController)
+    │  Reads extension config (mode, apiUrl, apiKey, model)
+    │  In devMode: client values override server config
     │
-    │  POST to Azure OpenAI endpoint
-    │  Header: api-key
-    │
-    ▼
-Azure OpenAI API
-    │
-    │  Returns chat completion (HTML paragraphs)
+    ├── mode=azure  → POST with api-key header
+    └── mode=openai → POST with Bearer token + model in body
     │
     ▼
-Response flows back to CKEditor
+AI Provider API → Response flows back to CKEditor
 ```
-
-The TYPO3 backend acts as a proxy to avoid browser CORS restrictions when calling the Azure API.
 
 ## File Structure
 
 ```
 packages/ok_ai_writer/
 ├── Classes/
-│   └── Controller/
-│       └── AiTextController.php          # AJAX proxy controller
+│   ├── Controller/
+│   │   └── AiTextController.php          # AJAX proxy controller
+│   └── Middleware/
+│       └── AddLanguageLabels.php         # Injects labels + config into backend JS
 ├── Configuration/
 │   ├── Backend/
 │   │   └── AjaxRoutes.php               # Registers /ok-ai-writer/generate
 │   ├── RTE/
 │   │   └── AiWriter.yaml                # CKEditor plugin module imports
 │   ├── JavaScriptModules.php             # JS import map registration
+│   ├── RequestMiddlewares.php            # Registers AddLanguageLabels middleware
 │   └── Services.yaml                     # DI autowiring
 ├── Resources/
-│   └── Public/
-│       └── JavaScript/
-│           └── plugin/
-│               ├── ai-text.js            # CKEditor 5 AI text plugin
-│               └── lorem-ipsum.js        # CKEditor 5 Lorem Ipsum plugin
+│   ├── Private/Language/
+│   │   ├── locallang.xlf                # English labels
+│   │   └── de.locallang.xlf             # German labels
+│   └── Public/JavaScript/plugin/
+│       ├── ai-text.js                    # CKEditor 5 AI text plugin
+│       └── lorem-ipsum.js               # CKEditor 5 Lorem Ipsum plugin
 ├── composer.json
+├── ext_conf_template.txt                 # Extension configuration (devMode, mode, apiUrl, apiKey, model)
 ├── ext_emconf.php
 └── ext_localconf.php
 ```

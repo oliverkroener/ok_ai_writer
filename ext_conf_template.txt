@@ -1,0 +1,14 @@
+# cat=basic/enable/10; type=boolean; label=Developer Mode: When enabled, editors can override API credentials in their browser (localStorage). When disabled, only server-side credentials are used.
+devMode = 0
+
+# cat=basic/config/20; type=options[Azure OpenAI=azure,OpenAI (ChatGPT)=openai]; label=API Mode: Select the AI provider.
+mode = azure
+
+# cat=basic/config/30; type=string; label=API URL: The endpoint URL. Azure: https://<resource>.openai.azure.com/openai/deployments/<model>/chat/completions?api-version=2024-02-01 | OpenAI: https://api.openai.com/v1/chat/completions
+apiUrl =
+
+# cat=basic/config/40; type=string; label=API Key: Your API key for the selected provider (displayed blinded to editors).
+apiKey =
+
+# cat=basic/config/50; type=string; label=Model (OpenAI mode only): The model to use, e.g. gpt-4o, gpt-4, gpt-3.5-turbo. Ignored in Azure mode where the model is part of the URL.
+model = gpt-4o
