@@ -14,6 +14,12 @@
             <trans-unit id="aitext.dialog.close" resname="aitext.dialog.close">
                 <source>Close</source>
             </trans-unit>
+            <trans-unit id="aitext.dialog.maximize" resname="aitext.dialog.maximize">
+                <source>Maximize</source>
+            </trans-unit>
+            <trans-unit id="aitext.dialog.restore" resname="aitext.dialog.restore">
+                <source>Restore</source>
+            </trans-unit>
             <trans-unit id="aitext.settings.mode" resname="aitext.settings.mode">
                 <source>API Mode</source>
             </trans-unit>
@@ -73,6 +79,36 @@
             </trans-unit>
             <trans-unit id="aitext.tokens.out" resname="aitext.tokens.out">
                 <source>out</source>
+            </trans-unit>
+            <trans-unit id="aitranslate.toolbar.label" resname="aitranslate.toolbar.label">
+                <source>AI Translate</source>
+            </trans-unit>
+            <trans-unit id="aitranslate.dialog.title" resname="aitranslate.dialog.title">
+                <source>AI Translate</source>
+            </trans-unit>
+            <trans-unit id="aitranslate.dialog.description" resname="aitranslate.dialog.description">
+                <source>Select target language to translate the editor content:</source>
+            </trans-unit>
+            <trans-unit id="aitranslate.dialog.cancel" resname="aitranslate.dialog.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="aitranslate.loading" resname="aitranslate.loading">
+                <source>Translating...</source>
+            </trans-unit>
+            <trans-unit id="aitranslate.error.empty" resname="aitranslate.error.empty">
+                <source>Editor is empty — nothing to translate.</source>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.title" resname="loremipsum.dialog.title">
+                <source>Lorem Ipsum</source>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.count" resname="loremipsum.dialog.count">
+                <source>Number of paragraphs</source>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.cancel" resname="loremipsum.dialog.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.insert" resname="loremipsum.dialog.insert">
+                <source>Insert</source>
             </trans-unit>
         </body>
     </file>

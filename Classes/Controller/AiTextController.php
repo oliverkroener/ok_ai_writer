@@ -23,30 +23,9 @@ class AiTextController
             $clientMessages = $body['messages'] ?? null;
             $prompt = trim($body['prompt'] ?? '');
 
-            // Load extension configuration
-            $extConf = $this->extensionConfiguration->get('ok_ai_writer');
-            $devMode = (bool)($extConf['devMode'] ?? false);
-            $serverMode = $extConf['mode'] ?? 'azure';
-            $serverApiUrl = trim((string)($extConf['apiUrl'] ?? ''));
-            $serverApiKey = trim((string)($extConf['apiKey'] ?? ''));
-            $serverModel = trim((string)($extConf['model'] ?? 'gpt-4o'));
-
-            if ($devMode) {
-                // In dev mode, client credentials override server config
-                $endpoint = trim($body['endpoint'] ?? '') ?: $serverApiUrl;
-                $apiKey = trim($body['apikey'] ?? '') ?: $serverApiKey;
-                $mode = trim($body['mode'] ?? '') ?: $serverMode;
-                $model = trim($body['model'] ?? '') ?: $serverModel;
-            } else {
-                // In production mode, always use server-side config
-                $endpoint = $serverApiUrl;
-                $apiKey = $serverApiKey;
-                $mode = $serverMode;
-                $model = $serverModel;
-            }
-
-            if ($endpoint === '' || $apiKey === '') {
-                return new JsonResponse(['error' => 'API credentials not configured. Please contact your administrator.'], 400);
+            $credentials = $this->resolveCredentials($body);
+            if ($credentials instanceof JsonResponse) {
+                return $credentials;
             }
 
             $systemMessage = [
@@ -55,7 +34,6 @@ class AiTextController
             ];
 
             if (is_array($clientMessages) && count($clientMessages) > 0) {
-                // Conversation mode: use provided message history
                 $apiMessages = [$systemMessage];
                 foreach ($clientMessages as $msg) {
                     if (
@@ -74,60 +52,126 @@ class AiTextController
                     return new JsonResponse(['error' => 'No valid messages provided.'], 400);
                 }
             } elseif ($prompt !== '') {
-                // Legacy single-prompt mode
                 $apiMessages = [$systemMessage, ['role' => 'user', 'content' => $prompt]];
             } else {
                 return new JsonResponse(['error' => 'Missing messages or prompt.'], 400);
             }
 
-            // Build request based on mode
-            if ($mode === 'openai') {
-                $headers = [
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $apiKey,
-                ];
-                $requestBody = [
-                    'model' => $model,
-                    'messages' => $apiMessages,
-                    'temperature' => 0.7,
-                    'max_tokens' => 2000,
-                ];
-            } else {
-                // Azure mode (default)
-                $headers = [
-                    'Content-Type' => 'application/json',
-                    'api-key' => $apiKey,
-                ];
-                $requestBody = [
-                    'messages' => $apiMessages,
-                    'temperature' => 0.7,
-                    'max_tokens' => 2000,
-                ];
-            }
-
-            $client = new Client();
-            $response = $client->request('POST', $endpoint, [
-                'headers' => $headers,
-                'body' => json_encode($requestBody, JSON_THROW_ON_ERROR),
-                'http_errors' => false,
-                'timeout' => 60,
-            ]);
-
-            $statusCode = $response->getStatusCode();
-            $responseBody = (string)$response->getBody();
-
-            if ($statusCode >= 400) {
-                return new JsonResponse([
-                    'error' => 'API error ' . $statusCode . ': ' . substr($responseBody, 0, 500),
-                ], 502);
-            }
-
-            $data = json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
-            return new JsonResponse($data);
+            return $this->callApi($credentials, $apiMessages);
         } catch (\Throwable $e) {
-            return new JsonResponse([
-                'error' => $e->getMessage(),
-            ], 500);
+            return new JsonResponse(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function translateAction(ServerRequestInterface $request): ResponseInterface
+    {
+        try {
+            $body = json_decode((string)$request->getBody(), true);
+            $content = trim($body['content'] ?? '');
+            $language = trim($body['language'] ?? '');
+
+            if ($content === '' || $language === '') {
+                return new JsonResponse(['error' => 'Missing content or language.'], 400);
+            }
+
+            $credentials = $this->resolveCredentials($body);
+            if ($credentials instanceof JsonResponse) {
+                return $credentials;
+            }
+
+            $apiMessages = [
+                [
+                    'role' => 'system',
+                    'content' => 'You are an expert translator. Translate the provided HTML content to the requested language. Preserve all HTML tags, structure, attributes, and formatting exactly as they are. Only translate the visible text content. Do not add, remove, or modify any HTML tags. Do not include markdown formatting, code fences, or explanations — return only the translated HTML.',
+                ],
+                [
+                    'role' => 'user',
+                    'content' => 'Translate the following HTML content to ' . $language . ":\n\n" . $content,
+                ],
+            ];
+
+            return $this->callApi($credentials, $apiMessages, 4000);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * @return array{endpoint: string, apiKey: string, mode: string, model: string}|JsonResponse
+     */
+    private function resolveCredentials(array $body): array|JsonResponse
+    {
+        $extConf = $this->extensionConfiguration->get('ok_ai_writer');
+        $devMode = (bool)($extConf['devMode'] ?? false);
+        $serverMode = $extConf['mode'] ?? 'azure';
+        $serverApiUrl = trim((string)($extConf['apiUrl'] ?? ''));
+        $serverApiKey = trim((string)($extConf['apiKey'] ?? ''));
+        $serverModel = trim((string)($extConf['model'] ?? 'gpt-4o'));
+
+        if ($devMode) {
+            $endpoint = trim($body['endpoint'] ?? '') ?: $serverApiUrl;
+            $apiKey = trim($body['apikey'] ?? '') ?: $serverApiKey;
+            $mode = trim($body['mode'] ?? '') ?: $serverMode;
+            $model = trim($body['model'] ?? '') ?: $serverModel;
+        } else {
+            $endpoint = $serverApiUrl;
+            $apiKey = $serverApiKey;
+            $mode = $serverMode;
+            $model = $serverModel;
+        }
+
+        if ($endpoint === '' || $apiKey === '') {
+            return new JsonResponse(['error' => 'API credentials not configured. Please contact your administrator.'], 400);
+        }
+
+        return ['endpoint' => $endpoint, 'apiKey' => $apiKey, 'mode' => $mode, 'model' => $model];
+    }
+
+    private function callApi(array $credentials, array $apiMessages, int $maxTokens = 2000): JsonResponse
+    {
+        ['endpoint' => $endpoint, 'apiKey' => $apiKey, 'mode' => $mode, 'model' => $model] = $credentials;
+
+        if ($mode === 'openai') {
+            $headers = [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey,
+            ];
+            $requestBody = [
+                'model' => $model,
+                'messages' => $apiMessages,
+                'temperature' => 0.3,
+                'max_tokens' => $maxTokens,
+            ];
+        } else {
+            $headers = [
+                'Content-Type' => 'application/json',
+                'api-key' => $apiKey,
+            ];
+            $requestBody = [
+                'messages' => $apiMessages,
+                'temperature' => 0.3,
+                'max_tokens' => $maxTokens,
+            ];
+        }
+
+        $client = new Client();
+        $response = $client->request('POST', $endpoint, [
+            'headers' => $headers,
+            'body' => json_encode($requestBody, JSON_THROW_ON_ERROR),
+            'http_errors' => false,
+            'timeout' => 120,
+        ]);
+
+        $statusCode = $response->getStatusCode();
+        $responseBody = (string)$response->getBody();
+
+        if ($statusCode >= 400) {
+            return new JsonResponse([
+                'error' => 'API error ' . $statusCode . ': ' . substr($responseBody, 0, 500),
+            ], 502);
+        }
+
+        $data = json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
+        return new JsonResponse($data);
     }
 }

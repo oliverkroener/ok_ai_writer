@@ -6,3 +6,6 @@ services:
 
   OliverKroener\OkAiWriter\:
     resource: '../Classes/*'
+
+  OliverKroener\OkAiWriter\Controller\AiTextController:
+    public: true

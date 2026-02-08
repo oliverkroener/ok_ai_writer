@@ -18,6 +18,14 @@
                 <source>Close</source>
                 <target>Schließen</target>
             </trans-unit>
+            <trans-unit id="aitext.dialog.maximize" resname="aitext.dialog.maximize">
+                <source>Maximize</source>
+                <target>Maximieren</target>
+            </trans-unit>
+            <trans-unit id="aitext.dialog.restore" resname="aitext.dialog.restore">
+                <source>Restore</source>
+                <target>Wiederherstellen</target>
+            </trans-unit>
             <trans-unit id="aitext.settings.mode" resname="aitext.settings.mode">
                 <source>API Mode</source>
                 <target>API-Modus</target>
@@ -97,6 +105,46 @@
             <trans-unit id="aitext.tokens.out" resname="aitext.tokens.out">
                 <source>out</source>
                 <target>Ausgabe</target>
+            </trans-unit>
+            <trans-unit id="aitranslate.toolbar.label" resname="aitranslate.toolbar.label">
+                <source>AI Translate</source>
+                <target>KI-Übersetzer</target>
+            </trans-unit>
+            <trans-unit id="aitranslate.dialog.title" resname="aitranslate.dialog.title">
+                <source>AI Translate</source>
+                <target>KI-Übersetzer</target>
+            </trans-unit>
+            <trans-unit id="aitranslate.dialog.description" resname="aitranslate.dialog.description">
+                <source>Select target language to translate the editor content:</source>
+                <target>Zielsprache auswählen, um den Editorinhalt zu übersetzen:</target>
+            </trans-unit>
+            <trans-unit id="aitranslate.dialog.cancel" resname="aitranslate.dialog.cancel">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="aitranslate.loading" resname="aitranslate.loading">
+                <source>Translating...</source>
+                <target>Wird übersetzt...</target>
+            </trans-unit>
+            <trans-unit id="aitranslate.error.empty" resname="aitranslate.error.empty">
+                <source>Editor is empty — nothing to translate.</source>
+                <target>Editor ist leer — nichts zu übersetzen.</target>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.title" resname="loremipsum.dialog.title">
+                <source>Lorem Ipsum</source>
+                <target>Lorem Ipsum</target>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.count" resname="loremipsum.dialog.count">
+                <source>Number of paragraphs</source>
+                <target>Anzahl der Absätze</target>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.cancel" resname="loremipsum.dialog.cancel">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="loremipsum.dialog.insert" resname="loremipsum.dialog.insert">
+                <source>Insert</source>
+                <target>Einfügen</target>
             </trans-unit>
         </body>
     </file>

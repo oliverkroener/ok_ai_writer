@@ -38,6 +38,9 @@ function createOverlay(editor) {
   // Effective mode: devMode localStorage > server config
   const effectiveMode = devMode && savedMode ? savedMode : serverMode;
 
+  // Save cursor position before dialog steals focus
+  const savedSelection = Array.from(editor.model.document.selection.getRanges());
+
   let conversationMessages = [];
   let generatedHtml = '';
   let isGenerating = false;
@@ -107,6 +110,12 @@ function createOverlay(editor) {
   dialog.innerHTML = `
     <style>
       @keyframes ai-dot-pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+      [data-tooltip]{position:relative;}
+      [data-tooltip]::after{content:attr(data-tooltip);position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%) scale(.9);background:#333;color:#fff;font-size:13px;font-weight:500;padding:5px 10px;border-radius:4px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s;z-index:1;}
+      [data-tooltip]:hover::after{opacity:1;transform:translateX(-50%) scale(1);}
+      [data-action="settings"]:hover,[data-action="maximize"]:hover,[data-action="close"]:hover{background:#f0f0f0 !important;color:#555 !important;box-shadow:0 1px 3px rgba(0,0,0,.12);}
+      [data-action="insert"]:hover{background:#6d28d9 !important;box-shadow:0 2px 8px rgba(124,58,237,.35);}
+      [data-action="generate"]:hover{background:#6d28d9 !important;box-shadow:0 2px 8px rgba(124,58,237,.35);}
     </style>
 
     <!-- Header -->
@@ -116,8 +125,9 @@ function createOverlay(editor) {
         <h2 style="margin:0;font-size:16px;font-weight:600;">${lang('aitext.dialog.title', 'AI Text Generator')}</h2>
       </div>
       <div style="display:flex;align-items:center;gap:2px;">
-        <button data-action="settings" title="${lang('aitext.dialog.settings', 'Settings')}" style="background:none;border:none;font-size:18px;cursor:pointer;color:#888;padding:4px 8px;border-radius:6px;line-height:1;">&#9881;</button>
-        <button data-action="close" title="${lang('aitext.dialog.close', 'Close')}" style="background:none;border:none;font-size:22px;cursor:pointer;color:#888;padding:4px 8px;border-radius:6px;line-height:1;">&times;</button>
+        <button data-action="settings" data-tooltip="${lang('aitext.dialog.settings', 'Settings')}" style="background:none;border:none;font-size:18px;cursor:pointer;color:#888;padding:4px 8px;border-radius:6px;line-height:1;transition:background .15s,color .15s,box-shadow .15s;">&#9881;</button>
+        <button data-action="maximize" data-tooltip="${lang('aitext.dialog.maximize', 'Maximize')}" style="background:none;border:none;font-size:16px;cursor:pointer;color:#888;padding:4px 8px;border-radius:6px;line-height:1;transition:background .15s,color .15s,box-shadow .15s;">&#9744;</button>
+        <button data-action="close" data-tooltip="${lang('aitext.dialog.close', 'Close')}" style="background:none;border:none;font-size:22px;cursor:pointer;color:#888;padding:4px 8px;border-radius:6px;line-height:1;transition:background .15s,color .15s,box-shadow .15s;">&times;</button>
       </div>
     </div>
 
@@ -145,14 +155,14 @@ function createOverlay(editor) {
 
     <!-- Insert bar (shown when text is available) -->
     <div data-insert-bar style="display:none;padding:0 20px 4px;flex-shrink:0;">
-      <button data-action="insert" style="width:100%;padding:10px;background:#7c3aed;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">${lang('aitext.insert', 'Insert into Editor')}</button>
+      <button data-action="insert" style="width:100%;padding:10px;background:#7c3aed;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,box-shadow .15s;">${lang('aitext.insert', 'Insert into Editor')}</button>
     </div>
 
     <!-- Input area (fixed at bottom) -->
     <div style="padding:12px 20px 16px;border-top:1px solid #e5e5e5;flex-shrink:0;">
       <div data-input-container style="display:flex;align-items:flex-end;gap:8px;border:1.5px solid #ddd;border-radius:12px;padding:8px 8px 8px 16px;background:#fafafa;transition:border-color .15s;">
         <textarea data-field="prompt" rows="1" placeholder="${lang('aitext.prompt.placeholder', 'Describe the text you want to generate...')}" style="flex:1;border:none;background:transparent;resize:none;font-size:14px;line-height:1.5;font-family:inherit;outline:none;max-height:120px;padding:4px 0;overflow-y:auto;"></textarea>
-        <button data-action="generate" title="${lang('aitext.send', 'Send (Enter)')}" style="flex-shrink:0;width:36px;height:36px;border:none;border-radius:8px;background:#7c3aed;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .15s;">
+        <button data-action="generate" title="${lang('aitext.send', 'Send (Enter)')}" style="flex-shrink:0;width:36px;height:36px;border:none;border-radius:8px;background:#7c3aed;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .15s,background .15s,box-shadow .15s;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
         </button>
       </div>
@@ -183,6 +193,7 @@ function createOverlay(editor) {
   const tokenStats = dialog.querySelector('[data-token-stats]');
   const tokensInEl = dialog.querySelector('[data-tokens-in]');
   const tokensOutEl = dialog.querySelector('[data-tokens-out]');
+  const maximizeBtn = dialog.querySelector('[data-action="maximize"]');
 
   // Dev mode specific elements
   const endpointInput = dialog.querySelector('[data-field="endpoint"]');
@@ -235,6 +246,29 @@ function createOverlay(editor) {
   settingsBtn.addEventListener('click', () => {
     const visible = settingsPanel.style.display !== 'none';
     settingsPanel.style.display = visible ? 'none' : 'block';
+  });
+
+  // Toggle maximize/restore
+  let isMaximized = false;
+  maximizeBtn.addEventListener('click', () => {
+    isMaximized = !isMaximized;
+    if (isMaximized) {
+      dialog.style.width = '100vw';
+      dialog.style.height = '100vh';
+      dialog.style.maxWidth = '100vw';
+      dialog.style.maxHeight = '100vh';
+      dialog.style.borderRadius = '0';
+      maximizeBtn.innerHTML = '&#9723;';
+      maximizeBtn.dataset.tooltip = lang('aitext.dialog.restore', 'Restore');
+    } else {
+      dialog.style.width = '680px';
+      dialog.style.height = '70vh';
+      dialog.style.maxWidth = '90vw';
+      dialog.style.maxHeight = '85vh';
+      dialog.style.borderRadius = '12px';
+      maximizeBtn.innerHTML = '&#9744;';
+      maximizeBtn.dataset.tooltip = lang('aitext.dialog.maximize', 'Maximize');
+    }
   });
 
   // Auto-resize textarea
@@ -375,12 +409,15 @@ function createOverlay(editor) {
     }
   });
 
-  // Insert into editor
+  // Insert into editor at saved cursor position
   insertBtn.addEventListener('click', () => {
     if (!generatedHtml) return;
     const viewFragment = editor.data.processor.toView(generatedHtml);
     const modelFragment = editor.data.toModel(viewFragment);
-    editor.model.insertContent(modelFragment);
+    editor.model.change(writer => {
+      writer.setSelection(savedSelection);
+      editor.model.insertContent(modelFragment);
+    });
     close();
   });
 
