@@ -1,0 +1,7 @@
+# AI Writer & Lorem Ipsum CKEditor plugins
+# Import this in your RTE preset and add 'aiText' and/or 'loremIpsum' to toolbar items
+editor:
+  config:
+    importModules:
+      - { module: '@oliverkroener/ok-ai-writer/plugin/ai-text.js', exports: ['AiText'] }
+      - { module: '@oliverkroener/ok-ai-writer/plugin/lorem-ipsum.js', exports: ['LoremIpsum'] }

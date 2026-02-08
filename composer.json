@@ -1,0 +1,28 @@
+{
+    "name": "oliverkroener/ok-ai-writer",
+    "type": "typo3-cms-extension",
+    "description": "AI Text Generator for CKEditor in TYPO3 - Azure OpenAI integration",
+    "license": "GPL-2.0-or-later",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Oliver Kroener",
+            "email": "ok@oliver-kroener.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "typo3/cms-core": "^13.4",
+        "typo3/cms-rte-ckeditor": "^13.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "OliverKroener\\OkAiWriter\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "ok_ai_writer"
+        }
+    }
+}
