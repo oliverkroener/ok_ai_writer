@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Background -->
+  <rect width="128" height="128" rx="16" ry="16" fill="#1a1a2e"/>
+
+  <!-- Sparkle large (center-right) -->
+  <path d="M72 28 L74.5 38 L84 42 L74.5 46 L72 56 L69.5 46 L60 42 L69.5 38 Z" fill="#e8547c"/>
+
+  <!-- Sparkle medium (top-left) -->
+  <path d="M52 18 L53.5 24 L59 26 L53.5 28 L52 34 L50.5 28 L45 26 L50.5 24 Z" fill="#e8547c"/>
+
+  <!-- Sparkle small (top-right) -->
+  <path d="M88 22 L89 25.5 L92 27 L89 28.5 L88 32 L87 28.5 L84 27 L87 25.5 Z" fill="#e8547c"/>
+
+  <!-- Text lines -->
+  <rect x="28" y="72" width="72" height="6" rx="3" fill="#9a9ab0"/>
+  <rect x="28" y="84" width="72" height="6" rx="3" fill="#9a9ab0"/>
+  <rect x="28" y="96" width="52" height="6" rx="3" fill="#9a9ab0"/>
+</svg>
