@@ -82,6 +82,29 @@ right corner. This helps editors monitor API usage during a session.
     cumulative usage across all prompts within a single dialog session.
 
 
+AI Translate
+============
+
+The AI Translate plugin translates the full editor content into a target
+language while preserving all HTML tags and formatting.
+
+
+Translating content
+-------------------
+
+1. Enter or select content in a CKEditor field.
+2. Click the **AI Translate** toolbar button (globe icon).
+3. Select the target language from the dropdown.
+4. Click **Translate**. The entire editor content is replaced with the
+   translated version.
+
+..  note::
+
+    The translation preserves all HTML structure, tags, and attributes.
+    Only visible text content is translated. The translate endpoint uses
+    a higher token limit (4000) to accommodate full-page content.
+
+
 Lorem Ipsum
 ============
 
@@ -89,10 +112,12 @@ The Lorem Ipsum plugin inserts placeholder text for layout prototyping.
 
 1. Place the cursor where you want the text inserted.
 2. Click the **Lorem Ipsum** toolbar button (text lines icon).
-3. Three paragraphs of Lorem Ipsum are inserted at the cursor position.
+3. In the dialog, choose the number of paragraphs (1–20).
+4. Click **Insert**. The selected number of Lorem Ipsum paragraphs are
+   inserted at the cursor position.
 
 ..  tip::
 
     The Lorem Ipsum plugin is especially handy during development and layout
     work. You can remove it from the toolbar in production by omitting
-    ``loremIpsum`` from your RTE preset's toolbar items.
+    ``LoremIpsum`` from your RTE preset's toolbar items.

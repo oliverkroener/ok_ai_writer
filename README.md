@@ -1,5 +1,12 @@
 # AI Writer for CKEditor (ok_ai_writer)
 
+[![TYPO3 10](https://img.shields.io/badge/TYPO3-10-orange?logo=typo3)](https://get.typo3.org/version/10)
+[![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange?logo=typo3)](https://get.typo3.org/version/11)
+[![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![CKEditor 4](https://img.shields.io/badge/CKEditor-4-0287D0?logo=ckeditor4&logoColor=white)](https://ckeditor.com/ckeditor-4/)
+[![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2%2B-blue)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+[![Version](https://img.shields.io/badge/version-1.0.0-green)](https://github.com/oliverkroener/ok-ai-writer)
+
 TYPO3 extension that adds CKEditor 4 toolbar buttons for AI text generation, translation, and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs.
 
 ## Features
@@ -188,3 +195,7 @@ packages/ok_ai_writer/
 ## License
 
 GPL-2.0-or-later
+
+## Author
+
+**Oliver Kroener** — [oliver-kroener.de](https://www.oliver-kroener.de) — [ok@oliver-kroener.de](mailto:ok@oliver-kroener.de)

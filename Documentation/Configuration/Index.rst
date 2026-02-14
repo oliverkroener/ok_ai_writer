@@ -105,15 +105,17 @@ Step 1: Register the CKEditor plugins
 ======================================
 
 The extension ships an RTE preset at
-:file:`EXT:ok_ai_writer/Configuration/RTE/Default.yaml` that imports both
-plugins. You can either use it directly or import it into your own preset.
+:file:`EXT:ok_ai_writer/Configuration/RTE/Default.yaml` that registers all
+three CKEditor 4 external plugins and adds an ``ai`` toolbar group. You can
+either use it directly or import it into your own preset.
 
 
 Option A: Import into your own RTE preset (recommended)
 -------------------------------------------------------
 
-Import the AI Writer YAML into your custom RTE preset and add ``aiText``,
-``aiTranslate``, and ``loremIpsum`` to your toolbar:
+Import the AI Writer YAML into your custom RTE preset. The import registers
+the external plugins and adds the ``ai`` toolbar group — the buttons appear
+automatically:
 
 ..  code-block:: yaml
     :caption: EXT:site_package/Configuration/RTE/MyPreset.yaml
@@ -124,15 +126,12 @@ Import the AI Writer YAML into your custom RTE preset and add ``aiText``,
 
     editor:
       config:
+        toolbarGroups:
+          - { name: 'ai', groups: ['ai'] }
         toolbar:
-          items:
-            - bold
-            - italic
-            # ... your other toolbar items ...
-            - sourceEditing
-            - loremIpsum
-            - aiText
-            - aiTranslate
+          - AiText
+          - AiTranslate
+          - LoremIpsum
 
 Register your preset in :file:`ext_localconf.php`:
 
@@ -158,12 +157,11 @@ directly, add to your Page TSconfig:
 
     RTE.default.preset = ok_ai_writer
 
-..  warning::
+..  note::
 
-    This preset **only loads the plugins**. It does not include a toolbar
-    definition, so the ``aiText``, ``aiTranslate``, and ``loremIpsum``
-    buttons must be added to the toolbar by another preset or via YAML
-    imports.
+    The bundled preset imports ``bootstrap_package`` as a base and registers
+    the three external plugins with an ``ai`` toolbar group. If your project
+    does not use Bootstrap Package, use Option A instead.
 
 
 Toolbar button names
@@ -172,9 +170,9 @@ Toolbar button names
 ================  ============================================
 Button name       Description
 ================  ============================================
-``aiText``        AI Text Generator (sparkle icon)
-``aiTranslate``   AI Translate (translate icon)
-``loremIpsum``    Lorem Ipsum placeholder text (text icon)
+``AiText``        AI Text Generator (sparkle icon)
+``AiTranslate``   AI Translate (globe icon)
+``LoremIpsum``    Lorem Ipsum placeholder text (text icon)
 ================  ============================================
 
 

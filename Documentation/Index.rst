@@ -19,7 +19,7 @@ AI Writer for CKEditor
    en
 
 :Author:
-   Oliver Kroener
+   `Oliver Kroener <https://www.oliver-kroener.de>`__ <ok@oliver-kroener.de>
 
 :License:
    This document is published under the
@@ -36,28 +36,46 @@ TYPO3 backend. Editors can generate SEO-optimized HTML content using
 editor.
 
 ..  card-grid::
-    :columns: 2
+    :columns: 1
+    :columns-md: 2
     :gap: 4
+    :class: pb-4
+    :card-height: 100
 
-    ..  card:: :ref:`Introduction <introduction>`
+    ..  card:: Introduction
 
         Learn what AI Writer does, its features, and system requirements.
 
-    ..  card:: :ref:`Installation <installation>`
+        ..  card-footer:: :ref:`Learn more <introduction>`
+            :button-style: btn btn-primary
 
-        Install the extension via Composer and activate it.
+    ..  card:: Installation
 
-    ..  card:: :ref:`Configuration <configuration>`
+        Install the extension via Composer and activate it in your TYPO3 project.
+
+        ..  card-footer:: :ref:`Get started <installation>`
+            :button-style: btn btn-primary
+
+    ..  card:: Configuration
 
         Set up extension settings, CKEditor toolbar, and AI provider credentials.
 
-    ..  card:: :ref:`Usage <usage>`
+        ..  card-footer:: :ref:`Configure <configuration>`
+            :button-style: btn btn-primary
 
-        Generate and refine AI content, insert Lorem Ipsum placeholder text.
+    ..  card:: Usage
 
-    ..  card:: :ref:`Architecture <architecture>`
+        Generate and refine AI content, translate text, and insert Lorem Ipsum.
+
+        ..  card-footer:: :ref:`Read guide <usage>`
+            :button-style: btn btn-primary
+
+    ..  card:: Architecture
 
         Understand the request flow, file structure, and extension internals.
+
+        ..  card-footer:: :ref:`View details <architecture>`
+            :button-style: btn btn-primary
 
 ..  toctree::
     :maxdepth: 2

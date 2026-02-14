@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<guides xmlns="https://www.phpdoc.org/guides"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.phpdoc.org/guides ../vendor/phpdocumentor/guides-cli/resources/schema/guides.xsd"
+        links-are-relative="true"
+        default-code-language="php">
+    <extension class="\T3Docs\Typo3DocsTheme\DependencyInjection\Typo3DocsThemeExtension"
+               edit-on-github-branch="main"
+               edit-on-github="oliverkroener/ok-ai-writer"
+               project-home="https://extensions.typo3.org/extension/ok_ai_writer/"
+               project-repository="https://github.com/oliverkroener/ok-ai-writer"
+               project-issues="https://github.com/oliverkroener/ok-ai-writer/issues"
+               interlink-shortcode="oliverkroener/ok-ai-writer"
+               typo3-core-preferred="stable" />
+    <project title="AI Writer for CKEditor"
+             version="1.0.0"
+             copyright="since 2024 by Oliver Kroener" />
+</guides>
