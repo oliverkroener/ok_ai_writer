@@ -4,10 +4,12 @@
     "description": "AI Text Generator for CKEditor in TYPO3 - Azure OpenAI integration",
     "license": "GPL-2.0-or-later",
     "version": "2.0.0",
+    "homepage": "https://www.oliver-kroener.de",
     "authors": [
         {
             "name": "Oliver Kroener",
             "email": "ok@oliver-kroener.de",
+            "homepage": "https://www.oliver-kroener.de",
             "role": "Developer"
         }
     ],

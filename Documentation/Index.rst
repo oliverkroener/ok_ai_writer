@@ -19,7 +19,7 @@ AI Writer for CKEditor
    en
 
 :Author:
-   Oliver Kroener
+   `Oliver Kroener <https://www.oliver-kroener.de>`__ <ok@oliver-kroener.de>
 
 :License:
    This document is published under the
@@ -35,29 +35,56 @@ TYPO3 backend. Editors can generate SEO-optimized HTML content using
 **Azure OpenAI** or **OpenAI (ChatGPT)** — without leaving the rich text
 editor.
 
-..  card-grid::
-    :columns: 2
-    :gap: 4
+..  tip::
 
-    ..  card:: :ref:`Introduction <introduction>`
+   **Quick start:** Install via ``composer require oliverkroener/ok-ai-writer``,
+   import the RTE preset, and configure your API credentials.
+   See :ref:`Installation <installation>` and :ref:`Configuration <configuration>`.
+
+..  card-grid::
+    :columns: 1
+    :columns-md: 2
+    :gap: 4
+    :class: pb-4
+    :card-height: 100
+
+    ..  card:: Introduction
 
         Learn what AI Writer does, its features, and system requirements.
 
-    ..  card:: :ref:`Installation <installation>`
+        ..  card-footer:: :ref:`Learn more <introduction>`
+            :button-style: btn btn-primary
 
-        Install the extension via Composer and activate it.
+    ..  card:: Installation
 
-    ..  card:: :ref:`Configuration <configuration>`
+        Install the extension via Composer and activate it in your TYPO3 instance.
 
-        Set up extension settings, CKEditor toolbar, and AI provider credentials.
+        ..  card-footer:: :ref:`Get started <installation>`
+            :button-style: btn btn-primary
 
-    ..  card:: :ref:`Usage <usage>`
+    ..  card:: Configuration
 
-        Generate and refine AI content, insert Lorem Ipsum placeholder text.
+        Set up extension settings, register CKEditor toolbar buttons, and
+        configure Azure OpenAI or OpenAI API credentials.
 
-    ..  card:: :ref:`Architecture <architecture>`
+        ..  card-footer:: :ref:`Configure <configuration>`
+            :button-style: btn btn-primary
 
-        Understand the request flow, file structure, and extension internals.
+    ..  card:: Usage
+
+        Generate and refine AI content with the chat-style dialog. Insert
+        Lorem Ipsum placeholder text with one click.
+
+        ..  card-footer:: :ref:`Start writing <usage>`
+            :button-style: btn btn-secondary
+
+    ..  card:: Architecture
+
+        Understand the request flow, file structure, provider modes,
+        and extension internals.
+
+        ..  card-footer:: :ref:`Explore <architecture>`
+            :button-style: btn btn-secondary
 
 ..  toctree::
     :maxdepth: 2
