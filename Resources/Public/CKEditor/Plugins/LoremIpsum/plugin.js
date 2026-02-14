@@ -18,9 +18,8 @@
 
   CKEDITOR.plugins.add('lorem_ipsum', {
     icons: 'loremipsum',
-    hidpi: true,
-
     init: function (editor) {
+      var pluginPath = this.path;
       editor.addCommand('loremIpsum', {
         exec: function (ed) {
           // Save cursor position before dialog steals focus
@@ -94,7 +93,8 @@
       editor.ui.addButton('LoremIpsum', {
         label: 'Lorem Ipsum',
         command: 'loremIpsum',
-        icon: ICON
+        toolbar: 'ai',
+        icon: pluginPath + 'icons/loremipsum.svg'
       });
     }
   });

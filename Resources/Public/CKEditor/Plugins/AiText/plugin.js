@@ -416,9 +416,8 @@
 
   CKEDITOR.plugins.add('ai_text', {
     icons: 'aitext',
-    hidpi: true,
-
     init: function (editor) {
+      var pluginPath = this.path;
       editor.addCommand('aiText', {
         exec: function (ed) {
           createOverlay(ed);
@@ -428,7 +427,8 @@
       editor.ui.addButton('AiText', {
         label: lang('aitext.toolbar.label', 'AI Text'),
         command: 'aiText',
-        icon: ICON
+        toolbar: 'ai',
+        icon: pluginPath + 'icons/aitext.svg'
       });
     }
   });

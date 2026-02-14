@@ -354,9 +354,8 @@
 
   CKEDITOR.plugins.add('ai_translate', {
     icons: 'aitranslate',
-    hidpi: true,
-
     init: function (editor) {
+      var pluginPath = this.path;
       editor.addCommand('aiTranslate', {
         exec: function (ed) {
           createOverlay(ed);
@@ -366,7 +365,8 @@
       editor.ui.addButton('AiTranslate', {
         label: lang('aitranslate.toolbar.label', 'AI Translate'),
         command: 'aiTranslate',
-        icon: ICON
+        toolbar: 'ai',
+        icon: pluginPath + 'icons/aitranslate.svg'
       });
     }
   });
