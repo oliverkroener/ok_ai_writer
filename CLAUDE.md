@@ -53,7 +53,7 @@ AI Provider API -> JSON response -> CKEditor
 
 - **AJAX route**: `Configuration/Backend/AjaxRoutes.php` -> `/ok-ai-writer/generate` and `/ok-ai-writer/translate`
 - **Middleware**: `Configuration/RequestMiddlewares.php` -> backend stack
-- **CKEditor plugins**: `Configuration/RTE/AiWriter.yaml` -> `externalPlugins` (CKEditor 4)
+- **CKEditor plugins**: `Configuration/RTE/Default.yaml` -> `externalPlugins` (CKEditor 4)
 - **RTE preset**: `ext_localconf.php` -> `$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['ok_ai_writer']`
 - **DI**: `Configuration/Services.yaml` -> autowired `OliverKroener\OkAiWriter\` namespace
 
@@ -77,7 +77,7 @@ Configured via **Admin Tools > Settings > Extension Configuration > ok_ai_writer
 ### CKEditor 4 Plugin Pattern
 
 Each plugin is a self-contained IIFE using `CKEDITOR.plugins.add()`:
-- Registered via `externalPlugins` in `AiWriter.yaml`
+- Registered via `externalPlugins` in `Default.yaml`
 - Uses `editor.addCommand()` + `editor.ui.addButton()` for toolbar integration
 - Uses `editor.insertHtml()` to insert content
 - Uses `editor.getSelection().createBookmarks2()` to save/restore cursor position
@@ -92,6 +92,6 @@ XLIFF files in `Resources/Private/Language/`: `locallang.xlf` (English) and `de.
 ## Integration Notes
 
 To use the AI Writer toolbar buttons, a consumer RTE preset must:
-1. Import `EXT:ok_ai_writer/Configuration/RTE/AiWriter.yaml`
+1. Import `EXT:ok_ai_writer/Configuration/RTE/Default.yaml`
 2. Add `AiText`, `AiTranslate`, and/or `LoremIpsum` to the toolbar items list
 3. Activate the preset via page TSconfig: `RTE.default.preset = <preset_name>`

@@ -93,7 +93,7 @@ Import the AI Writer YAML into your custom RTE preset and add `AiText`, `AiTrans
 # Your custom RTE preset (e.g. EXT:site_package/Configuration/RTE/MyPreset.yaml)
 imports:
     - { resource: 'EXT:rte_ckeditor/Configuration/RTE/Default.yaml' }
-    - { resource: 'EXT:ok_ai_writer/Configuration/RTE/AiWriter.yaml' }
+    - { resource: 'EXT:ok_ai_writer/Configuration/RTE/Default.yaml' }
 
 editor:
   config:
@@ -168,7 +168,7 @@ packages/ok_ai_writer/
 │   ├── Backend/
 │   │   └── AjaxRoutes.php               # Registers /ok-ai-writer/generate + /translate
 │   ├── RTE/
-│   │   └── AiWriter.yaml                # CKEditor 4 external plugin registration
+│   │   └── Default.yaml                 # CKEditor 4 external plugin registration
 │   ├── RequestMiddlewares.php            # Registers AddLanguageLabels middleware
 │   └── Services.yaml                     # DI autowiring
 ├── Resources/

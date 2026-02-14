@@ -122,7 +122,7 @@ Key files
     ├── JavaScriptModules.php            ES module import map for CKEditor plugins
     ├── RequestMiddlewares.php           Registers AddLanguageLabels middleware
     ├── RTE/
-    │   └── AiWriter.yaml               CKEditor preset importing both plugins
+    │   └── Default.yaml                CKEditor preset importing both plugins
     └── Services.yaml                    Symfony DI autowiring
 
     Resources/

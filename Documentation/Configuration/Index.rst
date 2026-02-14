@@ -105,7 +105,7 @@ Step 1: Register the CKEditor plugins
 ======================================
 
 The extension ships an RTE preset at
-:file:`EXT:ok_ai_writer/Configuration/RTE/AiWriter.yaml` that imports both
+:file:`EXT:ok_ai_writer/Configuration/RTE/Default.yaml` that imports both
 plugins. You can either use it directly or import it into your own preset.
 
 
@@ -120,7 +120,7 @@ Import the AI Writer YAML into your custom RTE preset and add ``aiText``,
 
     imports:
         - { resource: 'EXT:rte_ckeditor/Configuration/RTE/Default.yaml' }
-        - { resource: 'EXT:ok_ai_writer/Configuration/RTE/AiWriter.yaml' }
+        - { resource: 'EXT:ok_ai_writer/Configuration/RTE/Default.yaml' }
 
     editor:
       config:
