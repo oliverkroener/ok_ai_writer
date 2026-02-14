@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace OliverKroener\OkAiWriter\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
@@ -13,10 +11,21 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 
 class AddLanguageLabels implements MiddlewareInterface
 {
-    public function __construct(
-        private readonly PageRenderer $pageRenderer,
-        private readonly ExtensionConfiguration $extensionConfiguration,
-    ) {}
+    /**
+     * @var PageRenderer
+     */
+    private $pageRenderer;
+
+    /**
+     * @var ExtensionConfiguration
+     */
+    private $extensionConfiguration;
+
+    public function __construct(PageRenderer $pageRenderer, ExtensionConfiguration $extensionConfiguration)
+    {
+        $this->pageRenderer = $pageRenderer;
+        $this->extensionConfiguration = $extensionConfiguration;
+    }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -40,6 +49,10 @@ class AddLanguageLabels implements MiddlewareInterface
         return $handler->handle($request);
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
     private static function blindValue(string $value): string
     {
         if ($value === '') {

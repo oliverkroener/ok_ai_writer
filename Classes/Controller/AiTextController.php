@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace OliverKroener\OkAiWriter\Controller;
 
 use GuzzleHttp\Client;
@@ -12,9 +10,15 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 
 class AiTextController
 {
-    public function __construct(
-        private readonly ExtensionConfiguration $extensionConfiguration,
-    ) {}
+    /**
+     * @var ExtensionConfiguration
+     */
+    private $extensionConfiguration;
+
+    public function __construct(ExtensionConfiguration $extensionConfiguration)
+    {
+        $this->extensionConfiguration = $extensionConfiguration;
+    }
 
     public function generateAction(ServerRequestInterface $request): ResponseInterface
     {
@@ -97,9 +101,10 @@ class AiTextController
     }
 
     /**
-     * @return array{endpoint: string, apiKey: string, mode: string, model: string}|JsonResponse
+     * @param array $body
+     * @return array|JsonResponse
      */
-    private function resolveCredentials(array $body): array|JsonResponse
+    private function resolveCredentials(array $body)
     {
         $extConf = $this->extensionConfiguration->get('ok_ai_writer');
         $devMode = (bool)($extConf['devMode'] ?? false);
@@ -127,9 +132,18 @@ class AiTextController
         return ['endpoint' => $endpoint, 'apiKey' => $apiKey, 'mode' => $mode, 'model' => $model];
     }
 
+    /**
+     * @param array $credentials
+     * @param array $apiMessages
+     * @param int $maxTokens
+     * @return JsonResponse
+     */
     private function callApi(array $credentials, array $apiMessages, int $maxTokens = 2000): JsonResponse
     {
-        ['endpoint' => $endpoint, 'apiKey' => $apiKey, 'mode' => $mode, 'model' => $model] = $credentials;
+        $endpoint = $credentials['endpoint'];
+        $apiKey = $credentials['apiKey'];
+        $mode = $credentials['mode'];
+        $model = $credentials['model'];
 
         if ($mode === 'openai') {
             $headers = [

@@ -1,6 +1,6 @@
 # AI Writer for CKEditor (ok_ai_writer)
 
-TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs.
+TYPO3 extension that adds CKEditor 4 toolbar buttons for AI text generation, translation, and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs.
 
 ## Features
 
@@ -15,14 +15,20 @@ TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and 
 - Token usage tracking per session
 - Keyboard shortcut: **Enter** to generate, **Shift+Enter** for new line, **Escape** to close
 
+### AI Translate
+- Adds a globe icon button to the CKEditor toolbar
+- Opens a language selector dialog to translate the full editor content
+- Preserves all HTML tags and formatting during translation
+
 ### Lorem Ipsum
 - Adds a text icon button to the CKEditor toolbar
-- Inserts 3 paragraphs of Lorem Ipsum placeholder text at the cursor position
+- Opens a dialog to choose the number of paragraphs (1-20)
+- Inserts Lorem Ipsum placeholder text at the cursor position
 
 ## Requirements
 
-- TYPO3 12.4 LTS, 13.x, or 14.x
-- PHP 8.1+
+- TYPO3 10.4 LTS or 11.5 LTS
+- PHP 7.4+
 - `typo3/cms-rte-ckeditor`
 - An Azure OpenAI resource **or** an OpenAI API key
 
@@ -81,7 +87,7 @@ Open **Admin Tools > Settings > Extension Configuration > ok_ai_writer**:
 
 ### RTE Preset Setup
 
-Import the AI Writer YAML into your custom RTE preset and add `aiText`, `aiTranslate`, and `loremIpsum` to your toolbar:
+Import the AI Writer YAML into your custom RTE preset and add `AiText`, `AiTranslate`, and `LoremIpsum` to your toolbar:
 
 ```yaml
 # Your custom RTE preset (e.g. EXT:site_package/Configuration/RTE/MyPreset.yaml)
@@ -91,15 +97,12 @@ imports:
 
 editor:
   config:
+    toolbarGroups:
+      - { name: 'ai', groups: ['ai'] }
     toolbar:
-      items:
-        - bold
-        - italic
-        # ... your other toolbar items ...
-        - sourceEditing
-        - loremIpsum
-        - aiText
-        - aiTranslate
+      - AiText
+      - AiTranslate
+      - LoremIpsum
 ```
 
 Register your preset in `ext_localconf.php`:
@@ -135,21 +138,21 @@ RTE.default.preset = my_preset
 ## Architecture
 
 ```
-Browser (CKEditor plugin)
-    │
-    │  POST /typo3/ajax/ok-ai-writer/generate
-    │  Body: { messages[] }  (+ optional endpoint/apikey/mode/model in devMode)
-    │
-    ▼
+Browser (CKEditor 4 plugin)
+    |
+    |  POST /typo3/ajax/ok-ai-writer/generate
+    |  Body: { messages[] }  (+ optional endpoint/apikey/mode/model in devMode)
+    |
+    v
 TYPO3 Backend (AiTextController)
-    │  Reads extension config (mode, apiUrl, apiKey, model)
-    │  In devMode: client values override server config
-    │
-    ├── mode=azure  → POST with api-key header
-    └── mode=openai → POST with Bearer token + model in body
-    │
-    ▼
-AI Provider API → Response flows back to CKEditor
+    |  Reads extension config (mode, apiUrl, apiKey, model)
+    |  In devMode: client values override server config
+    |
+    |-- mode=azure  -> POST with api-key header
+    +-- mode=openai -> POST with Bearer token + model in body
+    |
+    v
+AI Provider API -> Response flows back to CKEditor
 ```
 
 ## File Structure
@@ -163,20 +166,19 @@ packages/ok_ai_writer/
 │       └── AddLanguageLabels.php         # Injects labels + config into backend JS
 ├── Configuration/
 │   ├── Backend/
-│   │   └── AjaxRoutes.php               # Registers /ok-ai-writer/generate
+│   │   └── AjaxRoutes.php               # Registers /ok-ai-writer/generate + /translate
 │   ├── RTE/
-│   │   └── AiWriter.yaml                # CKEditor plugin module imports
-│   ├── JavaScriptModules.php             # JS import map registration
+│   │   └── AiWriter.yaml                # CKEditor 4 external plugin registration
 │   ├── RequestMiddlewares.php            # Registers AddLanguageLabels middleware
 │   └── Services.yaml                     # DI autowiring
 ├── Resources/
 │   ├── Private/Language/
 │   │   ├── locallang.xlf                # English labels
 │   │   └── de.locallang.xlf             # German labels
-│   └── Public/JavaScript/plugin/
-│       ├── ai-text.js                    # CKEditor 5 AI text plugin
-│       ├── ai-translate.js              # CKEditor 5 AI translate plugin
-│       └── lorem-ipsum.js               # CKEditor 5 Lorem Ipsum plugin
+│   └── Public/CKEditor/Plugins/
+│       ├── AiText/plugin.js             # CKEditor 4 AI text plugin
+│       ├── AiTranslate/plugin.js        # CKEditor 4 AI translate plugin
+│       └── LoremIpsum/plugin.js         # CKEditor 4 Lorem Ipsum plugin
 ├── composer.json
 ├── ext_conf_template.txt                 # Extension configuration (devMode, mode, apiUrl, apiKey, model)
 ├── ext_emconf.php
