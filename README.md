@@ -8,7 +8,7 @@
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2%2B-blue)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
 [![Version](https://img.shields.io/badge/version-2.0.0-green)](https://github.com/oliverkroener/ok_ai_writer)
 
-TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs.
+TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation, AI translation, and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs.
 
 ## Features
 
@@ -21,11 +21,20 @@ TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and 
 - **Centralized credentials**: Admin configures API credentials server-side (displayed blinded to editors)
 - **Developer mode**: Optional per-user credentials via browser localStorage
 - Token usage tracking per session
-- Keyboard shortcut: **Enter** to generate, **Shift+Enter** for new line, **Escape** to close
+- Keyboard shortcuts: **Enter** to generate, **Shift+Enter** for new line, **Escape** to close
+
+### AI Translate
+- Adds a globe icon button to the CKEditor toolbar
+- Translates the entire editor content into a selected target language
+- Supports 7 languages: Deutsch, English (US), English (UK), Espanol, Francais, Italiano, Turkce
+- Preserves all HTML structure, tags, and attributes during translation
+- Auto-replaces editor content on successful translation
+- Shares credential configuration with the AI Text Generator
 
 ### Lorem Ipsum
 - Adds a text icon button to the CKEditor toolbar
-- Inserts 3 paragraphs of Lorem Ipsum placeholder text at the cursor position
+- Opens a dialog to select the number of paragraphs (1-20, default 3)
+- Inserts Lorem Ipsum placeholder text at the cursor position
 
 ## Requirements
 
@@ -145,7 +154,8 @@ RTE.default.preset = my_preset
 ```
 Browser (CKEditor plugin)
     │
-    │  POST /typo3/ajax/ok-ai-writer/generate
+    │  POST /typo3/ajax/ok-ai-writer/generate   (AI Text)
+    │  POST /typo3/ajax/ok-ai-writer/translate   (AI Translate)
     │  Body: { messages[] }  (+ optional endpoint/apikey/mode/model in devMode)
     │
     ▼
@@ -166,12 +176,13 @@ AI Provider API → Response flows back to CKEditor
 packages/ok_ai_writer/
 ├── Classes/
 │   ├── Controller/
-│   │   └── AiTextController.php          # AJAX proxy controller
+│   │   └── AiTextController.php          # AJAX proxy controller (generate + translate)
 │   └── Middleware/
 │       └── AddLanguageLabels.php         # Injects labels + config into backend JS
 ├── Configuration/
 │   ├── Backend/
-│   │   └── AjaxRoutes.php               # Registers /ok-ai-writer/generate
+│   │   └── AjaxRoutes.php               # Registers /ok-ai-writer/generate and /translate
+│   ├── Icons.php                         # Extension icon registration
 │   ├── RTE/
 │   │   └── AiWriter.yaml                # CKEditor plugin module imports
 │   ├── JavaScriptModules.php             # JS import map registration
@@ -181,10 +192,15 @@ packages/ok_ai_writer/
 │   ├── Private/Language/
 │   │   ├── locallang.xlf                # English labels
 │   │   └── de.locallang.xlf             # German labels
-│   └── Public/JavaScript/plugin/
-│       ├── ai-text.js                    # CKEditor 5 AI text plugin
-│       ├── ai-translate.js              # CKEditor 5 AI translate plugin
-│       └── lorem-ipsum.js               # CKEditor 5 Lorem Ipsum plugin
+│   └── Public/
+│       ├── Icons/
+│       │   ├── Extension.svg             # Extension icon (SVG)
+│       │   └── Extension.png             # Extension icon (PNG fallback)
+│       └── JavaScript/plugin/
+│           ├── ai-text.js                # CKEditor 5 AI text plugin
+│           ├── ai-translate.js           # CKEditor 5 AI translate plugin
+│           └── lorem-ipsum.js            # CKEditor 5 Lorem Ipsum plugin
+├── Documentation/                        # RST documentation
 ├── composer.json
 ├── ext_conf_template.txt                 # Extension configuration (devMode, mode, apiUrl, apiKey, model)
 ├── ext_emconf.php

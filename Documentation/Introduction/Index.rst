@@ -14,16 +14,21 @@ text generation directly into CKEditor. Editors can generate, preview, and
 iteratively refine SEO-optimized HTML content using **Azure OpenAI** or
 **OpenAI (ChatGPT)** — all without leaving the rich text editor.
 
-The extension provides two CKEditor 5 plugins:
+The extension provides three CKEditor 5 plugins:
 
 AI Text Generator
    Opens a chat-style dialog where editors describe the content they need. The
    AI generates well-structured HTML that can be refined through follow-up
    prompts before inserting it into the editor.
 
+AI Translate
+   Translates the entire editor content into a selected target language while
+   preserving all HTML structure and formatting. Supports 7 languages.
+
 Lorem Ipsum
-   Inserts three paragraphs of placeholder text with a single click — useful
-   during development and layout prototyping.
+   Opens a dialog to select the number of paragraphs (1–20) and inserts
+   Lorem Ipsum placeholder text — useful during development and layout
+   prototyping.
 
 
 Features
@@ -48,9 +53,12 @@ Features
    enabled.
 -  **Token usage tracking** — Displays cumulative input/output token counts
    per session so editors stay aware of API consumption.
+-  **AI translation** — Translate entire editor content into 7 languages
+   (Deutsch, English US/UK, Espanol, Francais, Italiano, Turkce) while
+   preserving HTML structure.
 -  **Localized UI** — Ships with English and German translations.
 -  **Lorem Ipsum helper** — Additional CKEditor plugin for quick placeholder
-   text insertion during development.
+   text insertion (1–20 paragraphs) during development.
 -  **Backend proxy** — API requests are routed through the TYPO3 backend,
    avoiding browser CORS restrictions.
 

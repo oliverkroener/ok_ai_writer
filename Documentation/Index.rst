@@ -30,10 +30,11 @@ AI Writer for CKEditor
 
 ----
 
-**AI Writer** adds AI-powered text generation directly into CKEditor in the
-TYPO3 backend. Editors can generate SEO-optimized HTML content using
-**Azure OpenAI** or **OpenAI (ChatGPT)** — without leaving the rich text
-editor.
+**AI Writer** adds AI-powered text generation, translation, and placeholder
+text insertion directly into CKEditor in the TYPO3 backend. Editors can
+generate SEO-optimized HTML content, translate into 7 languages, and insert
+Lorem Ipsum — all using **Azure OpenAI** or **OpenAI (ChatGPT)** without
+leaving the rich text editor.
 
 ..  tip::
 
@@ -72,11 +73,11 @@ editor.
 
     ..  card:: Usage
 
-        Generate and refine AI content with the chat-style dialog. Insert
-        Lorem Ipsum placeholder text with one click.
+        Generate and refine AI content, translate into 7 languages, or
+        insert Lorem Ipsum placeholder text.
 
         ..  card-footer:: :ref:`Start writing <usage>`
-            :button-style: btn btn-secondary
+            :button-style: btn btn-primary
 
     ..  card:: Architecture
 
@@ -84,7 +85,7 @@ editor.
         and extension internals.
 
         ..  card-footer:: :ref:`Explore <architecture>`
-            :button-style: btn btn-secondary
+            :button-style: btn btn-primary
 
 ..  toctree::
     :maxdepth: 2
