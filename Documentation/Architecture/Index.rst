@@ -131,6 +131,7 @@ Key files
     │   └── de.locallang.xlf             German labels
     └── Public/JavaScript/plugin/
         ├── ai-text.js                   CKEditor 5 AI Text plugin
+        ├── ai-translate.js             CKEditor 5 AI Translate plugin
         └── lorem-ipsum.js              CKEditor 5 Lorem Ipsum plugin
 
 
@@ -164,7 +165,7 @@ AddLanguageLabels middleware
 ----------------------------
 
 :File: :file:`Classes/Middleware/AddLanguageLabels.php`
-:Stack: Backend middleware, before ``output-compression``
+:Stack: Backend middleware
 
 Injects the extension's XLIFF translation labels into the TYPO3 backend
 page renderer so they are available via ``TYPO3.lang`` in JavaScript.

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TYPO3 13.4 LTS extension (`oliverkroener/ok-ai-writer`) that adds AI-powered text generation to CKEditor 5. Provides two toolbar buttons: **AI Text** (conversational HTML generation via Azure OpenAI or OpenAI) and **Lorem Ipsum** (placeholder text insertion). The TYPO3 backend acts as an API proxy to keep credentials server-side.
+TYPO3 extension (`oliverkroener/ok-ai-writer`) compatible with TYPO3 12.4, 13, and 14 that adds AI-powered text generation to CKEditor 5. Provides toolbar buttons: **AI Text** (conversational HTML generation via Azure OpenAI or OpenAI), **AI Translate**, and **Lorem Ipsum** (placeholder text insertion). The TYPO3 backend acts as an API proxy to keep credentials server-side.
 
 ## Commands
 
@@ -44,7 +44,7 @@ AI Provider API → JSON response → CKEditor
 | Component | File | Role |
 |-----------|------|------|
 | **AiTextController** | `Classes/Controller/AiTextController.php` | AJAX proxy to AI APIs. Validates messages, prepends system prompt, routes to Azure or OpenAI. 60s timeout, temp 0.7, max 2000 tokens. |
-| **AddLanguageLabels** | `Classes/Middleware/AddLanguageLabels.php` | Backend middleware (before `output-compression`). Injects XLIFF labels into `window.TYPO3.lang` and blinded config into `window.TYPO3.settings.ok_ai_writer`. |
+| **AddLanguageLabels** | `Classes/Middleware/AddLanguageLabels.php` | Backend middleware. Injects XLIFF labels into `window.TYPO3.lang` and blinded config into `window.TYPO3.settings.ok_ai_writer`. |
 | **ai-text.js** | `Resources/Public/JavaScript/plugin/ai-text.js` | CKEditor 5 plugin. Chat-style dialog with conversation history, token tracking, settings panel (read-only in prod, editable in devMode). |
 | **lorem-ipsum.js** | `Resources/Public/JavaScript/plugin/lorem-ipsum.js` | CKEditor 5 plugin. Inserts 3 hardcoded Lorem Ipsum paragraphs. |
 
@@ -82,5 +82,5 @@ XLIFF files in `Resources/Private/Language/`: `locallang.xlf` (English) and `de.
 
 To use the AI Writer toolbar buttons, a consumer RTE preset must:
 1. Import `EXT:ok_ai_writer/Configuration/RTE/AiWriter.yaml`
-2. Add `aiText` and/or `loremIpsum` to the toolbar items list
+2. Add `aiText`, `aiTranslate`, and/or `loremIpsum` to the toolbar items list
 3. Activate the preset via page TSconfig: `RTE.default.preset = <preset_name>`

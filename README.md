@@ -21,8 +21,9 @@ TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation and 
 
 ## Requirements
 
-- TYPO3 13.4 LTS
-- `typo3/cms-rte-ckeditor` ^13.4
+- TYPO3 12.4 LTS, 13.x, or 14.x
+- PHP 8.1+
+- `typo3/cms-rte-ckeditor`
 - An Azure OpenAI resource **or** an OpenAI API key
 
 ## Installation
@@ -80,7 +81,7 @@ Open **Admin Tools > Settings > Extension Configuration > ok_ai_writer**:
 
 ### RTE Preset Setup
 
-Import the AI Writer YAML into your custom RTE preset and add `aiText` and `loremIpsum` to your toolbar:
+Import the AI Writer YAML into your custom RTE preset and add `aiText`, `aiTranslate`, and `loremIpsum` to your toolbar:
 
 ```yaml
 # Your custom RTE preset (e.g. EXT:site_package/Configuration/RTE/MyPreset.yaml)
@@ -98,6 +99,7 @@ editor:
         - sourceEditing
         - loremIpsum
         - aiText
+        - aiTranslate
 ```
 
 Register your preset in `ext_localconf.php`:
@@ -173,6 +175,7 @@ packages/ok_ai_writer/
 │   │   └── de.locallang.xlf             # German labels
 │   └── Public/JavaScript/plugin/
 │       ├── ai-text.js                    # CKEditor 5 AI text plugin
+│       ├── ai-translate.js              # CKEditor 5 AI translate plugin
 │       └── lorem-ipsum.js               # CKEditor 5 Lorem Ipsum plugin
 ├── composer.json
 ├── ext_conf_template.txt                 # Extension configuration (devMode, mode, apiUrl, apiKey, model)

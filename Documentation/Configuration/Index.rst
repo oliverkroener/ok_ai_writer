@@ -112,8 +112,8 @@ plugins. You can either use it directly or import it into your own preset.
 Option A: Import into your own RTE preset (recommended)
 -------------------------------------------------------
 
-Import the AI Writer YAML into your custom RTE preset and add ``aiText``
-and ``loremIpsum`` to your toolbar:
+Import the AI Writer YAML into your custom RTE preset and add ``aiText``,
+``aiTranslate``, and ``loremIpsum`` to your toolbar:
 
 ..  code-block:: yaml
     :caption: EXT:site_package/Configuration/RTE/MyPreset.yaml
@@ -132,6 +132,7 @@ and ``loremIpsum`` to your toolbar:
             - sourceEditing
             - loremIpsum
             - aiText
+            - aiTranslate
 
 Register your preset in :file:`ext_localconf.php`:
 
@@ -160,19 +161,21 @@ directly, add to your Page TSconfig:
 ..  warning::
 
     This preset **only loads the plugins**. It does not include a toolbar
-    definition, so the ``aiText`` and ``loremIpsum`` buttons must be added
-    to the toolbar by another preset or via YAML imports.
+    definition, so the ``aiText``, ``aiTranslate``, and ``loremIpsum``
+    buttons must be added to the toolbar by another preset or via YAML
+    imports.
 
 
 Toolbar button names
 --------------------
 
-==============  ============================================
-Button name     Description
-==============  ============================================
-``aiText``      AI Text Generator (sparkle icon)
-``loremIpsum``  Lorem Ipsum placeholder text (text icon)
-==============  ============================================
+================  ============================================
+Button name       Description
+================  ============================================
+``aiText``        AI Text Generator (sparkle icon)
+``aiTranslate``   AI Translate (translate icon)
+``loremIpsum``    Lorem Ipsum placeholder text (text icon)
+================  ============================================
 
 
 .. _configuration-providers:
