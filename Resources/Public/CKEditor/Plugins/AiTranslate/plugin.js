@@ -320,8 +320,8 @@
           return;
         }
 
-        var translated = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
-        if (!translated.trim()) {
+        var translated = ((data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '').trim().replace(/^```[\w]*\n?/, '').replace(/\n?```$/, '').trim();
+        if (!translated) {
           isTranslating = false;
           for (var j = 0; j < allBtns.length; j++) {
             allBtns[j].disabled = false;

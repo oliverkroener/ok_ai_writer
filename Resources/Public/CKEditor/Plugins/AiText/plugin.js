@@ -352,7 +352,7 @@
           statusDiv.innerHTML = '<span style="color:#dc2626;">' + (data.error || 'Server error ' + xhr.status).replace(/</g, '&lt;') + '</span>';
         } else {
           var content = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
-          generatedHtml = content.trim();
+          generatedHtml = content.trim().replace(/^```[\w]*\n?/, '').replace(/\n?```$/, '').trim();
 
           if (data.usage) {
             totalInputTokens += data.usage.prompt_tokens || 0;
