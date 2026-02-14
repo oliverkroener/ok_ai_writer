@@ -1,5 +1,8 @@
-# AI Writer & Lorem Ipsum CKEditor plugins
-# Import this in your RTE preset and add 'AiText', 'AiTranslate', and/or 'LoremIpsum' to toolbar items
+# AI Writer RTE preset
+# Extends bootstrap_package RTE with AI Writer toolbar buttons
+imports:
+    - { resource: "EXT:bootstrap_package/Configuration/RTE/Default.yaml" }
+
 editor:
   externalPlugins:
     ai_text:
@@ -8,3 +11,17 @@ editor:
       resource: 'EXT:ok_ai_writer/Resources/Public/CKEditor/Plugins/AiTranslate/plugin.js'
     lorem_ipsum:
       resource: 'EXT:ok_ai_writer/Resources/Public/CKEditor/Plugins/LoremIpsum/plugin.js'
+
+  config:
+    toolbarGroups:
+      - { name: styles, groups: [ format, styles ] }
+      - { name: basicstyles, groups: [ basicstyles ] }
+      - { name: paragraph, groups: [ list, indent, blocks, align ] }
+      - "/"
+      - { name: links, groups: [ links ] }
+      - { name: clipboard, groups: [ clipboard, cleanup, undo ] }
+      - { name: editing, groups: [ spellchecker ] }
+      - { name: insert, groups: [ insert ] }
+      - { name: tools, groups: [ table, specialchar ] }
+      - { name: ai, groups: [ ai ] }
+      - { name: document, groups: [ mode ] }
