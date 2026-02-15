@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2">
+    <file source-language="en" datatype="plaintext" original="messages" date="2026-02-15T00:00:00Z" product-name="ok_ai_writer">
+        <body>
+            <trans-unit id="mlang_tabs_tab" xml:space="preserve">
+                <source>AI Writer</source>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tablabel" xml:space="preserve">
+                <source>AI Writer Configuration</source>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tabdescr" xml:space="preserve">
+                <source>Manage AI Writer API credentials per site.</source>
+            </trans-unit>
+            <trans-unit id="module.title" xml:space="preserve">
+                <source>AI Writer Configuration</source>
+            </trans-unit>
+            <trans-unit id="label.noPageSelected" xml:space="preserve">
+                <source>Please select a page from the page tree.</source>
+            </trans-unit>
+            <trans-unit id="label.noSiteFound" xml:space="preserve">
+                <source>No TYPO3 site configuration found for this page. Please create a site configuration first.</source>
+            </trans-unit>
+            <trans-unit id="label.siteIdentifier" xml:space="preserve">
+                <source>Site</source>
+            </trans-unit>
+            <trans-unit id="label.siteRootPageId" xml:space="preserve">
+                <source>Site Root Page ID</source>
+            </trans-unit>
+            <trans-unit id="label.fallbackActive" xml:space="preserve">
+                <source>No per-site configuration found. Global Extension Configuration credentials are being used as fallback. Fill in the fields below to override with site-specific credentials.</source>
+            </trans-unit>
+            <trans-unit id="label.devMode" xml:space="preserve">
+                <source>Developer Mode</source>
+            </trans-unit>
+            <trans-unit id="label.devMode.description" xml:space="preserve">
+                <source>When enabled, editors can override API credentials in their browser (localStorage). When disabled, only server-side credentials are used.</source>
+            </trans-unit>
+            <trans-unit id="label.mode" xml:space="preserve">
+                <source>API Mode</source>
+            </trans-unit>
+            <trans-unit id="label.mode.description" xml:space="preserve">
+                <source>Select the AI provider: Azure OpenAI or OpenAI (ChatGPT).</source>
+            </trans-unit>
+            <trans-unit id="label.apiUrl" xml:space="preserve">
+                <source>API URL</source>
+            </trans-unit>
+            <trans-unit id="label.apiUrl.description" xml:space="preserve">
+                <source>The endpoint URL. Azure: https://&lt;resource&gt;.openai.azure.com/openai/deployments/&lt;model&gt;/chat/completions?api-version=2024-02-01 | OpenAI: https://api.openai.com/v1/chat/completions</source>
+            </trans-unit>
+            <trans-unit id="label.apiKey" xml:space="preserve">
+                <source>API Key</source>
+            </trans-unit>
+            <trans-unit id="label.apiKey.description" xml:space="preserve">
+                <source>Your API key for the selected provider. Stored encrypted in the database.</source>
+            </trans-unit>
+            <trans-unit id="label.apiKey.existing" xml:space="preserve">
+                <source>An API key is stored (encrypted). Leave empty to keep it, or enter a new value to replace it.</source>
+            </trans-unit>
+            <trans-unit id="label.model" xml:space="preserve">
+                <source>Model</source>
+            </trans-unit>
+            <trans-unit id="label.model.description" xml:space="preserve">
+                <source>The model to use (e.g. gpt-4o, gpt-4, gpt-3.5-turbo). In Azure mode, the model is part of the URL.</source>
+            </trans-unit>
+            <trans-unit id="warning.encryptionKeyMissing.title" xml:space="preserve">
+                <source>Encryption Key Missing</source>
+            </trans-unit>
+            <trans-unit id="warning.encryptionKeyMissing.body" xml:space="preserve">
+                <source>The TYPO3 encryption key ($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']) is not set. The API key cannot be encrypted without it. Please configure the encryption key in the Install Tool before saving credentials.</source>
+            </trans-unit>
+            <trans-unit id="message.saved.title" xml:space="preserve">
+                <source>Configuration Saved</source>
+            </trans-unit>
+            <trans-unit id="message.saved.body" xml:space="preserve">
+                <source>AI Writer configuration has been saved successfully.</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

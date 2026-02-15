@@ -1,0 +1,159 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:layout name="Module" />
+
+<f:section name="Content">
+
+<f:if condition="{noPageSelected}">
+    <f:then>
+        <div class="callout callout-info">
+            <div class="callout-body">
+                <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.noPageSelected" />
+            </div>
+        </div>
+    </f:then>
+    <f:else>
+        <f:if condition="{noSiteFound}">
+            <f:then>
+                <div class="callout callout-warning">
+                    <div class="callout-body">
+                        <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.noSiteFound" />
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <f:if condition="{encryptionKeyMissing}">
+                    <div class="callout callout-danger">
+                        <div class="callout-title">
+                            <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:warning.encryptionKeyMissing.title" />
+                        </div>
+                        <div class="callout-body">
+                            <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:warning.encryptionKeyMissing.body" />
+                        </div>
+                    </div>
+                </f:if>
+
+                <form action="{saveUrl}" method="post" id="aiWriterConfigForm" name="aiWriterConfigForm">
+
+                    <div class="callout callout-info">
+                        <div class="callout-body">
+                            <strong><f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.siteIdentifier" />:</strong>
+                            {siteIdentifier}
+                            &nbsp;|&nbsp;
+                            <strong><f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.siteRootPageId" />:</strong>
+                            {siteRootPageId}
+                        </div>
+                    </div>
+
+                    <f:if condition="!{hasPerSiteConfig} && {globalHasCredentials}">
+                        <div class="callout callout-success">
+                            <div class="callout-body">
+                                <core:icon identifier="actions-check" size="small" />
+                                <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.fallbackActive" />
+                            </div>
+                        </div>
+                    </f:if>
+
+                    <div class="form-section">
+                        <div class="row mb-3">
+                            <div class="col-sm-9 offset-sm-3">
+                                <div class="form-check">
+                                    <input type="hidden" name="data[devMode]" value="0" />
+                                    <input type="checkbox" class="form-check-input" id="devMode"
+                                           name="data[devMode]" value="1"
+                                           {f:if(condition: config.devMode, then: 'checked="checked"')} />
+                                    <label class="form-check-label" for="devMode">
+                                        <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.devMode" />
+                                    </label>
+                                </div>
+                                <div class="form-text">
+                                    <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.devMode.description" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label" for="mode">
+                                <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.mode" />
+                            </label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="mode" name="data[mode]">
+                                    <option value="azure" {f:if(condition: '{config.mode} == \'azure\'', then: 'selected="selected"')}>Azure OpenAI</option>
+                                    <option value="openai" {f:if(condition: '{config.mode} == \'openai\'', then: 'selected="selected"')}>OpenAI (ChatGPT)</option>
+                                </select>
+                                <div class="form-text">
+                                    <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.mode.description" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label" for="apiUrl">
+                                <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.apiUrl" />
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="url" class="form-control" id="apiUrl" name="data[apiUrl]"
+                                       value="{config.apiUrl}" placeholder="https://..." />
+                                <div class="form-text">
+                                    <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.apiUrl.description" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label" for="apiKey">
+                                <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.apiKey" />
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="apiKey" name="data[apiKey]"
+                                       value="" autocomplete="new-password" />
+                                <div class="form-text">
+                                    <f:if condition="{hasExistingApiKey}">
+                                        <f:then>
+                                            <span class="text-success">
+                                                <core:icon identifier="actions-check" size="small" />
+                                                <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.apiKey.existing" />
+                                            </span>
+                                        </f:then>
+                                        <f:else>
+                                            <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.apiKey.description" />
+                                        </f:else>
+                                    </f:if>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label" for="model">
+                                <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.model" />
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="model" name="data[model]"
+                                       value="{config.model}" placeholder="gpt-4o" />
+                                <div class="form-text">
+                                    <f:translate key="LLL:EXT:ok_ai_writer/Resources/Private/Language/locallang_be_module.xlf:label.model.description" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <core:icon identifier="actions-document-save" size="small" />
+                            <f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:rm.saveDoc" />
+                        </button>
+                    </div>
+
+                </form>
+            </f:else>
+        </f:if>
+    </f:else>
+</f:if>
+
+</f:section>
+
+</html>

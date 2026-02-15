@@ -217,6 +217,12 @@ function createOverlay(editor) {
 
   // Build request body with credentials from form fields or server
   function buildRequestBody(baseBody) {
+    // Include siteRootPageId for per-site credential resolution
+    const siteRootPageId = config.siteRootPageId ?? 0;
+    if (siteRootPageId > 0) {
+      baseBody.siteRootPageId = siteRootPageId;
+    }
+
     if (devMode) {
       const endpoint = endpointInput ? endpointInput.value.trim() : '';
       const apikey = apikeyInput ? apikeyInput.value.trim() : '';

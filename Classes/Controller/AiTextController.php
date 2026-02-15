@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace OliverKroener\OkAiWriter\Controller;
 
 use GuzzleHttp\Client;
+use OliverKroener\OkAiWriter\Service\ConfigurationService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\JsonResponse;
 
 class AiTextController
 {
     public function __construct(
-        private readonly ExtensionConfiguration $extensionConfiguration,
+        private readonly ConfigurationService $configurationService,
     ) {}
 
     public function generateAction(ServerRequestInterface $request): ResponseInterface
@@ -101,12 +101,14 @@ class AiTextController
      */
     private function resolveCredentials(array $body): array|JsonResponse
     {
-        $extConf = $this->extensionConfiguration->get('ok_ai_writer');
-        $devMode = (bool)($extConf['devMode'] ?? false);
-        $serverMode = $extConf['mode'] ?? 'azure';
-        $serverApiUrl = trim((string)($extConf['apiUrl'] ?? ''));
-        $serverApiKey = trim((string)($extConf['apiKey'] ?? ''));
-        $serverModel = trim((string)($extConf['model'] ?? 'gpt-4o'));
+        $siteRootPageId = (int)($body['siteRootPageId'] ?? 0);
+        $config = $this->configurationService->getConfiguration($siteRootPageId);
+
+        $devMode = $config['devMode'];
+        $serverMode = $config['mode'];
+        $serverApiUrl = $config['apiUrl'];
+        $serverApiKey = $config['apiKey'];
+        $serverModel = $config['model'];
 
         if ($devMode) {
             $endpoint = trim($body['endpoint'] ?? '') ?: $serverApiUrl;

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2026-02-15T00:00:00Z" product-name="ok_ai_writer">
+        <body>
+            <trans-unit id="mlang_tabs_tab" xml:space="preserve">
+                <source>AI Writer</source>
+                <target>AI Writer</target>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tablabel" xml:space="preserve">
+                <source>AI Writer Configuration</source>
+                <target>AI Writer Konfiguration</target>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tabdescr" xml:space="preserve">
+                <source>Manage AI Writer API credentials per site.</source>
+                <target>AI Writer API-Zugangsdaten pro Website verwalten.</target>
+            </trans-unit>
+            <trans-unit id="module.title" xml:space="preserve">
+                <source>AI Writer Configuration</source>
+                <target>AI Writer Konfiguration</target>
+            </trans-unit>
+            <trans-unit id="label.noPageSelected" xml:space="preserve">
+                <source>Please select a page from the page tree.</source>
+                <target>Bitte eine Seite im Seitenbaum auswaehlen.</target>
+            </trans-unit>
+            <trans-unit id="label.noSiteFound" xml:space="preserve">
+                <source>No TYPO3 site configuration found for this page. Please create a site configuration first.</source>
+                <target>Fuer diese Seite wurde keine TYPO3-Site-Konfiguration gefunden. Bitte erstellen Sie zuerst eine Site-Konfiguration.</target>
+            </trans-unit>
+            <trans-unit id="label.siteIdentifier" xml:space="preserve">
+                <source>Site</source>
+                <target>Website</target>
+            </trans-unit>
+            <trans-unit id="label.siteRootPageId" xml:space="preserve">
+                <source>Site Root Page ID</source>
+                <target>Stammseiten-ID</target>
+            </trans-unit>
+            <trans-unit id="label.fallbackActive" xml:space="preserve">
+                <source>No per-site configuration found. Global Extension Configuration credentials are being used as fallback. Fill in the fields below to override with site-specific credentials.</source>
+                <target>Keine seitenspezifische Konfiguration gefunden. Die globalen Zugangsdaten aus der Extension-Konfiguration werden als Fallback verwendet. Fuellen Sie die Felder unten aus, um seitenspezifische Zugangsdaten zu verwenden.</target>
+            </trans-unit>
+            <trans-unit id="label.devMode" xml:space="preserve">
+                <source>Developer Mode</source>
+                <target>Entwicklermodus</target>
+            </trans-unit>
+            <trans-unit id="label.devMode.description" xml:space="preserve">
+                <source>When enabled, editors can override API credentials in their browser (localStorage). When disabled, only server-side credentials are used.</source>
+                <target>Wenn aktiviert, koennen Redakteure die API-Zugangsdaten im Browser (localStorage) ueberschreiben. Wenn deaktiviert, werden nur serverseitige Zugangsdaten verwendet.</target>
+            </trans-unit>
+            <trans-unit id="label.mode" xml:space="preserve">
+                <source>API Mode</source>
+                <target>API-Modus</target>
+            </trans-unit>
+            <trans-unit id="label.mode.description" xml:space="preserve">
+                <source>Select the AI provider: Azure OpenAI or OpenAI (ChatGPT).</source>
+                <target>AI-Anbieter auswaehlen: Azure OpenAI oder OpenAI (ChatGPT).</target>
+            </trans-unit>
+            <trans-unit id="label.apiUrl" xml:space="preserve">
+                <source>API URL</source>
+                <target>API-URL</target>
+            </trans-unit>
+            <trans-unit id="label.apiUrl.description" xml:space="preserve">
+                <source>The endpoint URL. Azure: https://&lt;resource&gt;.openai.azure.com/openai/deployments/&lt;model&gt;/chat/completions?api-version=2024-02-01 | OpenAI: https://api.openai.com/v1/chat/completions</source>
+                <target>Die Endpunkt-URL. Azure: https://&lt;resource&gt;.openai.azure.com/openai/deployments/&lt;model&gt;/chat/completions?api-version=2024-02-01 | OpenAI: https://api.openai.com/v1/chat/completions</target>
+            </trans-unit>
+            <trans-unit id="label.apiKey" xml:space="preserve">
+                <source>API Key</source>
+                <target>API-Schluessel</target>
+            </trans-unit>
+            <trans-unit id="label.apiKey.description" xml:space="preserve">
+                <source>Your API key for the selected provider. Stored encrypted in the database.</source>
+                <target>Ihr API-Schluessel fuer den ausgewaehlten Anbieter. Wird verschluesselt in der Datenbank gespeichert.</target>
+            </trans-unit>
+            <trans-unit id="label.apiKey.existing" xml:space="preserve">
+                <source>An API key is stored (encrypted). Leave empty to keep it, or enter a new value to replace it.</source>
+                <target>Ein API-Schluessel ist gespeichert (verschluesselt). Leer lassen um ihn zu behalten, oder einen neuen Wert eingeben um ihn zu ersetzen.</target>
+            </trans-unit>
+            <trans-unit id="label.model" xml:space="preserve">
+                <source>Model</source>
+                <target>Modell</target>
+            </trans-unit>
+            <trans-unit id="label.model.description" xml:space="preserve">
+                <source>The model to use (e.g. gpt-4o, gpt-4, gpt-3.5-turbo). In Azure mode, the model is part of the URL.</source>
+                <target>Das zu verwendende Modell (z.B. gpt-4o, gpt-4, gpt-3.5-turbo). Im Azure-Modus ist das Modell Teil der URL.</target>
+            </trans-unit>
+            <trans-unit id="warning.encryptionKeyMissing.title" xml:space="preserve">
+                <source>Encryption Key Missing</source>
+                <target>Verschluesselungsschluessel fehlt</target>
+            </trans-unit>
+            <trans-unit id="warning.encryptionKeyMissing.body" xml:space="preserve">
+                <source>The TYPO3 encryption key ($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']) is not set. The API key cannot be encrypted without it. Please configure the encryption key in the Install Tool before saving credentials.</source>
+                <target>Der TYPO3-Verschluesselungsschluessel ($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']) ist nicht gesetzt. Der API-Schluessel kann ohne ihn nicht verschluesselt werden. Bitte konfigurieren Sie den Verschluesselungsschluessel im Install Tool bevor Sie Zugangsdaten speichern.</target>
+            </trans-unit>
+            <trans-unit id="message.saved.title" xml:space="preserve">
+                <source>Configuration Saved</source>
+                <target>Konfiguration gespeichert</target>
+            </trans-unit>
+            <trans-unit id="message.saved.body" xml:space="preserve">
+                <source>AI Writer configuration has been saved successfully.</source>
+                <target>Die AI Writer Konfiguration wurde erfolgreich gespeichert.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

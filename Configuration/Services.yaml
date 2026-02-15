@@ -9,3 +9,6 @@ services:
 
   OliverKroener\OkAiWriter\Controller\AiTextController:
     public: true
+
+  OliverKroener\OkAiWriter\Controller\Backend\ConfigurationController:
+    public: true
