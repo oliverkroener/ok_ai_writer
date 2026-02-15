@@ -88,6 +88,13 @@ credential storage via a dedicated backend module.
         ..  card-footer:: :ref:`Explore <architecture>`
             :button-style: btn btn-primary
 
+    ..  card:: Contact
+
+        Get in touch with the author for support, questions, or contributions.
+
+        ..  card-footer:: :ref:`Get in touch <contact>`
+            :button-style: btn btn-primary
+
 ..  toctree::
     :maxdepth: 2
     :titlesonly:
@@ -98,3 +105,4 @@ credential storage via a dedicated backend module.
     Configuration/Index
     Usage/Index
     Architecture/Index
+    Contact/Index
