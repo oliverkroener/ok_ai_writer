@@ -47,6 +47,11 @@ Features
 -  **Dual provider support** — Works with both Azure OpenAI and
    OpenAI (ChatGPT) APIs. Switch between providers via extension
    configuration.
+-  **Per-site configuration** — Dedicated backend module (Web > AI Writer)
+   allows administrators to configure different API credentials per TYPO3 site,
+   with automatic fallback to global extension configuration.
+-  **Encrypted credential storage** — Per-site API keys are encrypted at rest
+   using Sodium encryption derived from TYPO3's ``encryptionKey``.
 -  **Centralized or per-user credentials** — API credentials can be
    configured server-side by an administrator (displayed blinded to editors)
    or per-user in the browser's ``localStorage`` when developer mode is

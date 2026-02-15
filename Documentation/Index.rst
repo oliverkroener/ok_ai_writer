@@ -34,7 +34,8 @@ AI Writer for CKEditor
 text insertion directly into CKEditor in the TYPO3 backend. Editors can
 generate SEO-optimized HTML content, translate into 7 languages, and insert
 Lorem Ipsum — all using **Azure OpenAI** or **OpenAI (ChatGPT)** without
-leaving the rich text editor.
+leaving the rich text editor. Supports per-site configuration with encrypted
+credential storage via a dedicated backend module.
 
 ..  tip::
 

@@ -7,15 +7,16 @@ Configuration
 =============
 
 The extension supports two AI providers — **Azure OpenAI** and
-**OpenAI (ChatGPT)** — and can be configured either centrally by an
-administrator or per-user in developer mode.
+**OpenAI (ChatGPT)** — and offers two levels of configuration: a **global**
+extension configuration (fallback) and a **per-site** configuration via a
+dedicated backend module.
 
 
-Extension configuration
-=======================
+Global extension configuration
+==============================
 
 Open **Admin Tools > Settings > Extension Configuration > ok_ai_writer**
-to set the following options:
+to set the global defaults:
 
 .. confval:: devMode
 
@@ -75,9 +76,54 @@ to set the following options:
 
 ..  tip::
 
-    For production environments, configure ``apiUrl`` and ``apiKey`` in the
-    extension configuration and leave ``devMode`` disabled. Editors will see
-    a green "configured by administrator" badge in the settings panel.
+    The global extension configuration serves as the **fallback** for sites
+    that do not have per-site credentials configured. For simple setups with
+    a single site, configuring only the global settings is sufficient.
+
+
+Per-site configuration (backend module)
+=======================================
+
+The extension provides a dedicated backend module at **Web > AI Writer**
+that allows administrators to configure different API credentials for each
+TYPO3 site. This is useful for multi-site setups where each site may use
+a different AI provider or API key.
+
+To configure per-site credentials:
+
+1. Navigate to **Web > AI Writer** in the TYPO3 backend.
+2. Select a page from the page tree. The module automatically resolves the
+   site root.
+3. Fill in the configuration fields (Developer Mode, API Mode, API URL,
+   API Key, Model).
+4. Click **Save**.
+
+..  note::
+
+    -  The backend module requires **admin access**.
+    -  A TYPO3 site configuration must exist for the selected page.
+    -  If no per-site configuration is set, the module displays an info
+       banner indicating that the global fallback is active.
+
+Configuration resolution order:
+
+1. **Per-site configuration** — if a record exists in
+   ``tx_okaiwriter_configuration`` for the current site root page ID and
+   has a non-empty ``apiUrl``, it is used.
+2. **Global extension configuration** — used as fallback when no per-site
+   configuration is found.
+
+Encrypted API key storage
+-------------------------
+
+Per-site API keys are stored **encrypted** in the database using Sodium
+encryption. The encryption key is derived from TYPO3's
+``$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']``.
+
+..  warning::
+
+    The TYPO3 encryption key must be set before saving per-site credentials.
+    If the encryption key is missing, the backend module displays a warning.
 
 
 Developer mode
@@ -191,7 +237,7 @@ Azure OpenAI
 2. Deploy a model (e.g. ``gpt-4``, ``gpt-4o``, ``gpt-35-turbo``).
 3. Copy the **Endpoint** and **Key** from the resource's
    "Keys and Endpoint" page.
-4. In the extension configuration, set:
+4. In the extension configuration (global or per-site), set:
 
    -  ``mode`` = ``azure``
    -  ``apiUrl`` = ``https://<resource>.openai.azure.com/openai/deployments/<model>/chat/completions?api-version=2024-02-01``
@@ -208,7 +254,7 @@ OpenAI (ChatGPT)
 
 1. Create an account at `platform.openai.com <https://platform.openai.com>`__
    and generate an API key.
-2. In the extension configuration, set:
+2. In the extension configuration (global or per-site), set:
 
    -  ``mode`` = ``openai``
    -  ``apiUrl`` = ``https://api.openai.com/v1/chat/completions``
@@ -217,6 +263,8 @@ OpenAI (ChatGPT)
 
 ..  attention::
 
-    The API key is stored in :file:`config/system/settings.php`. Ensure
-    this file is not committed to version control and that your TYPO3
-    backend is served over HTTPS.
+    When using global extension configuration, the API key is stored in
+    :file:`config/system/settings.php`. Ensure this file is not committed
+    to version control and that your TYPO3 backend is served over HTTPS.
+    When using per-site configuration, the API key is stored encrypted in
+    the database.

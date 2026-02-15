@@ -51,13 +51,16 @@ After installing, set up and activate the extension:
 ..  code-block:: bash
 
     vendor/bin/typo3 extension:setup
+    vendor/bin/typo3 database:updateschema
     vendor/bin/typo3 cache:flush
 
 ..  note::
 
-    The extension requires **no database tables** and no additional setup
-    beyond registering the CKEditor plugins in your RTE preset (see
-    :ref:`configuration`).
+    The ``database:updateschema`` step creates the
+    ``tx_okaiwriter_configuration`` table used for per-site credential
+    storage. This table stores encrypted API keys and per-site settings.
+    After the database schema is updated, register the CKEditor plugins in
+    your RTE preset (see :ref:`configuration`).
 
 
 Verify the installation
