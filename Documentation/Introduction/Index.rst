@@ -59,7 +59,7 @@ Features
 -  **Token usage tracking** — Displays cumulative input/output token counts
    per session so editors stay aware of API consumption.
 -  **AI translation** — Translate entire editor content into 7 languages
-   (Deutsch, English US/UK, Espanol, Francais, Italiano, Turkce) while
+   (Deutsch, English US/UK, Español, Français, Italiano, Türkçe) while
    preserving HTML structure.
 -  **Localized UI** — Ships with English and German translations.
 -  **Lorem Ipsum helper** — Additional CKEditor plugin for quick placeholder

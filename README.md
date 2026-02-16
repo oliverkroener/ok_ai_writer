@@ -24,7 +24,7 @@ TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation, AI 
 ### AI Translate
 - Adds a globe icon button to the CKEditor toolbar
 - Translates the entire editor content into a selected target language
-- Supports 7 languages: Deutsch, English (US), English (UK), Espanol, Francais, Italiano, Turkce
+- Supports 7 languages: Deutsch, English (US), English (UK), Español, Français, Italiano, Türkçe
 - Preserves all HTML structure, tags, and attributes during translation
 - Auto-replaces editor content on successful translation
 - Shares credential configuration with the AI Text Generator

@@ -99,10 +99,10 @@ Translating content
    -  Deutsch
    -  English (US)
    -  English (UK)
-   -  Espanol
-   -  Francais
+   -  Español
+   -  Français
    -  Italiano
-   -  Turkce
+   -  Türkçe
 
 4. The translation starts immediately. A loading indicator shows the progress.
 5. On success, the editor content is replaced with the translated version.

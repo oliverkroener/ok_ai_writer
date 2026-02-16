@@ -328,12 +328,12 @@ File                                               Language
 
 **Backend module labels:**
 
-========================================================  ===========
-File                                                      Language
-========================================================  ===========
-``Resources/Private/Language/locallang_be_module.xlf``    English
-``Resources/Private/Language/de.locallang_be_module.xlf`` German
-========================================================  ===========
+==========================================================  ===========
+File                                                        Language
+==========================================================  ===========
+``Resources/Private/Language/locallang_be_module.xlf``      English
+``Resources/Private/Language/de.locallang_be_module.xlf``   German
+==========================================================  ===========
 
 CKEditor plugin labels are loaded into the backend via the
 ``AddLanguageLabels`` middleware and accessed in JavaScript through
