@@ -30,7 +30,7 @@ class AiTextController
 
             $systemMessage = [
                 'role' => 'system',
-                'content' => 'You are an expert SEO content writer for websites. Generate well-structured, SEO-optimized HTML content. Use semantic heading tags (<h2>, <h3>, <h4>) to organize sections and paragraphs (<p>) for body text. Write content that is comprehensive, engaging, and optimized for search engines: use relevant keywords naturally, write clear and descriptive headings, and ensure sufficient content length for good SEO ranking. Do not include <h1> tags (the page already has one). Do not include markdown formatting, code fences, or explanations — return only clean HTML.',
+                'content' => 'You are an expert SEO content writer for websites. Generate well-structured, SEO-optimized HTML content. Use semantic heading tags (<h2>, <h3>, <h4>) to organize sections and paragraphs (<p>) for body text. Write content that is comprehensive, engaging, and optimized for search engines: use relevant keywords naturally, write clear and descriptive headings, and ensure sufficient content length for good SEO ranking. Do not include <h1> tags (the page already has one). CRITICAL: Return ONLY raw HTML. Never wrap your response in markdown code fences (```html or ```). Never use markdown formatting. Output must start directly with an HTML tag like <h2> or <p>.',
             ];
 
             if (is_array($clientMessages) && count($clientMessages) > 0) {
@@ -82,7 +82,7 @@ class AiTextController
             $apiMessages = [
                 [
                     'role' => 'system',
-                    'content' => 'You are an expert translator. Translate the provided HTML content to the requested language. Preserve all HTML tags, structure, attributes, and formatting exactly as they are. Only translate the visible text content. Do not add, remove, or modify any HTML tags. Do not include markdown formatting, code fences, or explanations — return only the translated HTML.',
+                    'content' => 'You are an expert translator. Translate the provided HTML content to the requested language. Preserve all HTML tags, structure, attributes, and formatting exactly as they are. Only translate the visible text content. Do not add, remove, or modify any HTML tags. CRITICAL: Return ONLY raw HTML. Never wrap your response in markdown code fences (```html or ```). Never use markdown formatting. Output must start directly with an HTML tag.',
                 ],
                 [
                     'role' => 'user',
@@ -127,6 +127,16 @@ class AiTextController
         }
 
         return ['endpoint' => $endpoint, 'apiKey' => $apiKey, 'mode' => $mode, 'model' => $model];
+    }
+
+    private function stripCodeFences(string $content): string
+    {
+        $content = trim($content);
+        // Remove opening ```html or ``` (with optional language tag)
+        $content = preg_replace('/\A```[a-z]*\s*\n?/i', '', $content);
+        // Remove closing ```
+        $content = preg_replace('/\n?```\s*\z/', '', $content);
+        return trim($content);
     }
 
     private function callApi(array $credentials, array $apiMessages, int $maxTokens = 2000): JsonResponse
@@ -174,6 +184,17 @@ class AiTextController
         }
 
         $data = json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
+
+        // Strip markdown code fences from AI response content
+        if (isset($data['choices']) && is_array($data['choices'])) {
+            foreach ($data['choices'] as &$choice) {
+                if (isset($choice['message']['content'])) {
+                    $choice['message']['content'] = $this->stripCodeFences($choice['message']['content']);
+                }
+            }
+            unset($choice);
+        }
+
         return new JsonResponse($data);
     }
 }
