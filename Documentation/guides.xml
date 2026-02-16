@@ -4,6 +4,6 @@
         xsi:schemaLocation="https://www.phpdocumentor.org/guides/xmlns vendor/phpdocumentor/guides-cli/resources/schema/guides.xsd"
         links-are-relative="true">
     <project title="AI Writer for CKEditor"
-             version="2.0.0"
-             release="2.0.0" />
+             version="2.0.1"
+             release="2.0.1" />
 </guides>

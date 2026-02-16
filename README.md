@@ -6,7 +6,7 @@
 [![PHP 8.1+](https://img.shields.io/badge/PHP-8.1%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![CKEditor 5](https://img.shields.io/badge/CKEditor-5-0287D0?logo=ckeditor4&logoColor=white)](https://ckeditor.com/ckeditor-5/)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2%2B-blue)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-[![Version](https://img.shields.io/badge/version-2.0.0-green)](https://github.com/oliverkroener/ok_ai_writer)
+[![Version](https://img.shields.io/badge/version-2.0.1-green)](https://github.com/oliverkroener/ok_ai_writer)
 
 TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation, AI translation, and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs with per-site configuration and encrypted credential storage.
 
