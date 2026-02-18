@@ -6,7 +6,7 @@
 [![PHP 8.1+](https://img.shields.io/badge/PHP-8.1%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![CKEditor 5](https://img.shields.io/badge/CKEditor-5-0287D0?logo=ckeditor4&logoColor=white)](https://ckeditor.com/ckeditor-5/)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2%2B-blue)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-[![Version](https://img.shields.io/badge/version-2.0.1-green)](https://github.com/oliverkroener/ok_ai_writer)
+[![Version](https://img.shields.io/badge/version-2.0.2-green)](https://github.com/oliverkroener/ok_ai_writer)
 
 TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation, AI translation, and Lorem Ipsum insertion. Supports both **Azure OpenAI** and **OpenAI (ChatGPT)** APIs with per-site configuration and encrypted credential storage.
 
@@ -39,6 +39,12 @@ TYPO3 extension that adds CKEditor 5 toolbar buttons for AI text generation, AI 
 - **Encrypted API key storage** — API keys are encrypted at rest using Sodium (derived from TYPO3's `encryptionKey`)
 - **Global fallback** — sites without per-site config automatically use the global extension configuration
 - **Site-aware middleware** — resolves the current site from page context to load the correct credentials
+
+### Dark Mode Support
+- All dialogs automatically adapt to the TYPO3 backend's **dark mode** setting
+- Detects TYPO3's `data-color-scheme` attribute (`dark`, `light`, or `auto`)
+- Falls back to `prefers-color-scheme` media query for the `auto` setting
+- Full themed color palette for backgrounds, text, borders, inputs, buttons, and status indicators
 
 ### Credential Handling
 - **Production mode**: API credentials configured server-side, displayed blinded to editors

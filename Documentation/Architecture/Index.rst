@@ -295,6 +295,13 @@ All three plugins are standard CKEditor 5 plugins registered via
 :file:`Configuration/JavaScriptModules.php` and imported through the RTE
 preset YAML.
 
+All three plugins detect the TYPO3 backend's dark mode setting via
+the ``data-color-scheme`` attribute on ``<html>`` (``dark``, ``light``, or
+``auto``). For the ``auto`` value, they fall back to the browser's
+``prefers-color-scheme`` media query. A shared ``getTheme()`` function
+returns the full color palette (backgrounds, text, borders, inputs, buttons,
+status indicators) used to style each dialog.
+
 **ai-text.js**
    Registers the ``aiText`` toolbar button. On click, creates a maximizable
    modal dialog with a chat-style interface. Handles conversation state, API

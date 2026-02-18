@@ -12,3 +12,6 @@ services:
 
   OliverKroener\OkAiWriter\Controller\Backend\ConfigurationController:
     public: true
+
+  OliverKroener\OkAiWriter\Service\ConfigurationService:
+    public: true

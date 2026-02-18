@@ -6,6 +6,13 @@
 Usage
 =====
 
+..  note::
+
+    All plugin dialogs automatically adapt to the TYPO3 backend's **dark mode**
+    setting. No manual configuration is required — the theme is detected
+    automatically from the backend's color scheme preference.
+
+
 AI Text Generator
 =================
 

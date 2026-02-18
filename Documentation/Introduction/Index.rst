@@ -61,6 +61,9 @@ Features
 -  **AI translation** — Translate entire editor content into 7 languages
    (Deutsch, English US/UK, Español, Français, Italiano, Türkçe) while
    preserving HTML structure.
+-  **Dark mode support** — All dialogs automatically adapt to the TYPO3
+   backend's dark mode setting, detecting the ``data-color-scheme`` attribute
+   with ``prefers-color-scheme`` media query fallback.
 -  **Localized UI** — Ships with English and German translations.
 -  **Lorem Ipsum helper** — Additional CKEditor plugin for quick placeholder
    text insertion (1–20 paragraphs) during development.

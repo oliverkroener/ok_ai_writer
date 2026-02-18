@@ -96,13 +96,13 @@ class FormDirtyCheck {
             const buttons = [
                 {
                     text: TYPO3?.lang?.['buttons.confirm.close_without_save.no'] || 'No, I will continue editing',
-                    btnClass: 'btn-default',
+                    btnClass: 'btn-outline-dark',
                     name: 'no',
                     active: true,
                 },
                 {
                     text: TYPO3?.lang?.['buttons.confirm.close_without_save.yes'] || 'Yes, discard my changes',
-                    btnClass: 'btn-default',
+                    btnClass: 'btn-outline-dark',
                     name: 'yes',
                 },
                 {

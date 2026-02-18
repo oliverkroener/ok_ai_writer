@@ -16,6 +16,43 @@ function lang(key, fallback) {
   return window.TYPO3?.lang?.[key] ?? fallback;
 }
 
+function isDarkMode() {
+  const scheme = document.documentElement.getAttribute('data-color-scheme');
+  if (scheme === 'dark') return true;
+  if (scheme === 'light') return false;
+  return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false;
+}
+
+function getTheme() {
+  return isDarkMode() ? {
+    bg: '#1e1e2e',
+    text: '#d4d4e0',
+    border: '#3d3d50',
+    label: '#b0b0c0',
+    iconFill: '#9e9eb0',
+    inputBg: '#2a2a3d',
+    inputBorder: '#7a7a90',
+    cancelBg: '#252538',
+    cancelBorder: '#7a7a90',
+    cancelText: '#b0b0c0',
+    hoverBg: '#2d2d42',
+    shadow: 'rgba(0,0,0,.6)',
+  } : {
+    bg: '#fff',
+    text: '#333',
+    border: '#e5e5e5',
+    label: '#555',
+    iconFill: '#666',
+    inputBg: '#fff',
+    inputBorder: '#949494',
+    cancelBg: '#fff',
+    cancelBorder: '#949494',
+    cancelText: '#555',
+    hoverBg: '#f5f5f5',
+    shadow: 'rgba(0,0,0,.25)',
+  };
+}
+
 class LoremIpsum extends Core.Plugin {
   static get pluginName() {
     return 'LoremIpsum';
@@ -37,27 +74,36 @@ class LoremIpsum extends Core.Plugin {
         // Save cursor position before dialog steals focus
         const savedSelection = Array.from(editor.model.document.selection.getRanges());
 
+        // Theme colors
+        const t = getTheme();
+
         const overlay = document.createElement('div');
         overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90000;display:flex;align-items:center;justify-content:center;';
 
         const dialog = document.createElement('div');
-        dialog.style.cssText = 'background:#fff;border-radius:10px;width:320px;max-width:90vw;box-shadow:0 20px 50px rgba(0,0,0,.25);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;overflow:hidden;';
+        dialog.style.cssText = `background:${t.bg};border-radius:10px;width:320px;max-width:90vw;box-shadow:0 20px 50px ${t.shadow};font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:${t.text};overflow:hidden;`;
+        dialog.setAttribute('role', 'dialog');
+        dialog.setAttribute('aria-modal', 'true');
+        dialog.setAttribute('aria-label', lang('loremipsum.dialog.title', 'Lorem Ipsum'));
 
         dialog.innerHTML = `
           <style>
-            [data-action="cancel"]:hover{background:#f5f5f5 !important;border-color:#ccc !important;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+            [data-action="cancel"]:hover{background:${t.hoverBg} !important;border-color:${t.inputBorder} !important;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+            [data-action="cancel"]:focus-visible{outline:2px solid #7c3aed;outline-offset:2px;}
             [data-action="ok"]:hover{background:#6d28d9 !important;box-shadow:0 2px 8px rgba(124,58,237,.35);}
+            [data-action="ok"]:focus-visible{outline:2px solid #fff;outline-offset:-4px;}
+            #lorem-ipsum-count:focus{border-color:#7c3aed !important;box-shadow:0 0 0 2px rgba(124,58,237,.25);}
           </style>
-          <div style="padding:16px 20px;border-bottom:1px solid #e5e5e5;display:flex;align-items:center;gap:10px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="#666"><path d="M5 2C4.4 2 4 2.4 4 3v14c0 .6.4 1 1 1h10c.6 0 1-.4 1-1V6l-4-4H5zm6 1l3 3h-3V3zM6.5 9h7c.3 0 .5.2.5.5s-.2.5-.5.5h-7C6.2 10 6 9.8 6 9.5S6.2 9 6.5 9zm0 2.5h5c.3 0 .5.2.5.5s-.2.5-.5.5h-5c-.3 0-.5-.2-.5-.5s.2-.5.5-.5zm0 2.5h6c.3 0 .5.2.5.5s-.2.5-.5.5h-6c-.3 0-.5-.2-.5-.5s.2-.5.5-.5z"/></svg>
+          <div style="padding:16px 20px;border-bottom:1px solid ${t.border};display:flex;align-items:center;gap:10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="${t.iconFill}" aria-hidden="true"><path d="M5 2C4.4 2 4 2.4 4 3v14c0 .6.4 1 1 1h10c.6 0 1-.4 1-1V6l-4-4H5zm6 1l3 3h-3V3zM6.5 9h7c.3 0 .5.2.5.5s-.2.5-.5.5h-7C6.2 10 6 9.8 6 9.5S6.2 9 6.5 9zm0 2.5h5c.3 0 .5.2.5.5s-.2.5-.5.5h-5c-.3 0-.5-.2-.5-.5s.2-.5.5-.5zm0 2.5h6c.3 0 .5.2.5.5s-.2.5-.5.5h-6c-.3 0-.5-.2-.5-.5s.2-.5.5-.5z"/></svg>
             <h3 style="margin:0;font-size:15px;font-weight:600;">${lang('loremipsum.dialog.title', 'Lorem Ipsum')}</h3>
           </div>
           <div style="padding:20px;">
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#555;">${lang('loremipsum.dialog.count', 'Number of paragraphs')}</label>
-            <input data-field="count" type="number" min="1" max="20" value="3" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;outline:none;text-align:center;" />
+            <label for="lorem-ipsum-count" style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:${t.label};">${lang('loremipsum.dialog.count', 'Number of paragraphs')}</label>
+            <input id="lorem-ipsum-count" data-field="count" type="number" min="1" max="20" value="3" style="width:100%;padding:8px 10px;border:1px solid ${t.inputBorder};border-radius:6px;font-size:14px;box-sizing:border-box;outline:none;text-align:center;background:${t.inputBg};color:${t.text};" />
           </div>
           <div style="display:flex;gap:8px;padding:0 20px 16px;justify-content:flex-end;">
-            <button data-action="cancel" style="padding:8px 16px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;color:#555;transition:background .15s,border-color .15s,box-shadow .15s;">${lang('loremipsum.dialog.cancel', 'Cancel')}</button>
+            <button data-action="cancel" style="padding:8px 16px;border:1px solid ${t.cancelBorder};border-radius:6px;background:${t.cancelBg};font-size:13px;cursor:pointer;color:${t.cancelText};transition:background .15s,border-color .15s,box-shadow .15s;">${lang('loremipsum.dialog.cancel', 'Cancel')}</button>
             <button data-action="ok" style="padding:8px 16px;border:none;border-radius:6px;background:#7c3aed;color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,box-shadow .15s;">${lang('loremipsum.dialog.insert', 'Insert')}</button>
           </div>
         `;
